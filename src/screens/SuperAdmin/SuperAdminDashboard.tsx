@@ -2599,6 +2599,11 @@ export const SuperAdminDashboard = (): JSX.Element => {
           </div>
 
           <nav className="flex-1 p-4 overflow-y-auto">
+            {/* Account Type Switcher */}
+            <div className="mb-4">
+              <AccountTypeSwitcher variant="sidebar" />
+            </div>
+
             <div className="space-y-1">
               {superAdminNavItems.map((item) => (
                 <div
@@ -2664,6 +2669,8 @@ export const SuperAdminDashboard = (): JSX.Element => {
               </div>
 
               <div className="flex items-center gap-4">
+                <AccountTypeSwitcher variant="header" />
+                
                 <Button variant="ghost" size="sm" className="p-2">
                   <SearchIcon className="w-5 h-5 text-[#64748B]" />
                 </Button>

@@ -2664,8 +2664,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
               </div>
 
               <div className="flex items-center gap-4">
-                <AccountTypeSwitcher variant="header" />
-                
                 <Button variant="ghost" size="sm" className="p-2">
                   <SearchIcon className="w-5 h-5 text-[#64748B]" />
                 </Button>

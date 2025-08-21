@@ -6435,10 +6435,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="text-right">
-                    <div className="text-sm font-medium text-[#1E293B]">Super Admin</div>
-                    <div className="text-xs text-[#64748B]">Platform Controller</div>
-                  </div>
                   <ProfileDropdown
                     userName="Super Admin"
                     userRole="Platform Controller"

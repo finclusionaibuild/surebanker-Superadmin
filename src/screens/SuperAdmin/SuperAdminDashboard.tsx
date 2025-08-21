@@ -6360,28 +6360,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
             <div className="mb-4">
               <AccountTypeSwitcher variant="sidebar" />
             </div>
-
-            <div className="space-y-1">
-              {superAdminNavItems.map((item) => (
-                <div
-                  key={item.id}
-                  onClick={() => setCurrentPage(item.id)}
-                  className={`px-3 py-2 rounded-lg flex items-center gap-3 cursor-pointer transition-colors ${
-                    currentPage === item.id
-                      ? "bg-[#5B52FF] text-white"
-                      : "text-[#64748B] hover:bg-gray-50"
-                  }`}
-                >
-                  {item.icon}
-                  <div className="flex-1">
-                    <span className="font-medium text-sm">{item.name}</span>
-                    <p className="text-xs opacity-70">{item.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </nav>
-
           <div className="p-4">
             <Card className="bg-gradient-to-br from-purple-500 to-pink-500 text-white">
               <CardContent className="p-4">

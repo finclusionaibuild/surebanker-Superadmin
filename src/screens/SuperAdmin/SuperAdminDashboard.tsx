@@ -6359,6 +6359,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
             {/* Account Type Switcher */}
             <div className="mb-4">
               <AccountTypeSwitcher variant="sidebar" />
+          </nav>
             </div>
           <div className="p-4">
             <Card className="bg-gradient-to-br from-purple-500 to-pink-500 text-white">

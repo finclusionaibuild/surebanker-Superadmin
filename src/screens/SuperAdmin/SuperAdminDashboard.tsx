@@ -6425,15 +6425,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
                   <SearchIcon className="w-5 h-5 text-[#64748B]" />
                 </Button>
                 
-                <div className="relative">
-                  <Button variant="ghost" size="sm" className="p-2">
-                    <BellIcon className="w-5 h-5 text-[#64748B]" />
-                  </Button>
-                  <Badge className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs flex items-center justify-center p-0">
-                    5
-                  </Badge>
-                </div>
-
                 <div className="flex items-center gap-3">
                   <ProfileDropdown
                     userName="Super Admin"

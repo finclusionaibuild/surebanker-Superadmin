@@ -48,7 +48,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
     userType: "Individual",
     region: "",
     status: "Active"
-  });</parameter>
+  });
 
   // Confetti animation function
   const triggerConfetti = () => {

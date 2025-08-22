@@ -19,6 +19,36 @@ export const SuperAdminDashboard = (): JSX.Element => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [selectedRegion, setSelectedRegion] = useState("all");
+  const [showAddTerminalModal, setShowAddTerminalModal] = useState(false);
+  const [showAssignTerminalModal, setShowAssignTerminalModal] = useState(false);
+  const [showUserDetailsModal, setShowUserDetailsModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedTerminal, setSelectedTerminal] = useState(null);
+  const [posNotifications, setPosNotifications] = useState([
+    { id: "POS_REQ_001", type: "request", message: "New POS terminal request from Tech Solutions Ltd", timestamp: "2 hours ago", isRead: false },
+    { id: "POS_ACT_001", type: "activation", message: "POS terminal TRM12348 activated successfully", timestamp: "4 hours ago", isRead: false },
+    { id: "POS_REQ_002", type: "request", message: "POS terminal request from Retail Masters Inc", timestamp: "1 day ago", isRead: true }
+  ]);
+  const [terminalFormData, setTerminalFormData] = useState({
+    terminalId: "",
+    merchantName: "",
+    location: "",
+    region: "",
+    serialNumber: "",
+    model: "",
+    dailyLimit: "",
+    monthlyLimit: ""
+  });
+  const [userFormData, setUserFormData] = useState({
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    userType: "Individual",
+    region: "",
+    status: "Active"
+  });</parameter>
 
   // Confetti animation function
   const triggerConfetti = () => {
@@ -144,9 +174,12 @@ export const SuperAdminDashboard = (): JSX.Element => {
   ];
 
   const users = [
-    { id: "1", name: "Carchy Atinse", email: "carchy@email.com", type: "Individual", kycStatus: "Tier 2", region: "Nigeria", status: "Active", balance: 120000 },
-    { id: "2", name: "Tech Solutions Ltd", email: "admin@techsolutions.com", type: "Business", kybStatus: "Tier 3", region: "Ghana", status: "Active", balance: 2500000 },
-    { id: "3", name: "Alex Developer", email: "alex@dev.com", type: "Developer", kycStatus: "Tier 1", region: "Kenya", status: "Active", balance: 50000 }
+    { id: "1", firstName: "Carchy", middleName: "Chijioke", lastName: "Atinse", email: "carchy@email.com", phone: "+234 801 234 5678", type: "Individual", kycStatus: "Tier 2", region: "Nigeria", status: "Active", balance: 120000 },
+    { id: "2", firstName: "Tech", middleName: "", lastName: "Solutions Ltd", email: "admin@techsolutions.com", phone: "+233 201 234 5678", type: "Business", kybStatus: "Tier 3", region: "Ghana", status: "Active", balance: 2500000 },
+    { id: "3", firstName: "Alex", middleName: "James", lastName: "Developer", email: "alex@dev.com", phone: "+254 701 234 567", type: "Developer", kycStatus: "Tier 1", region: "Kenya", status: "Active", balance: 50000 },
+    { id: "4", firstName: "John", middleName: "Michael", lastName: "Admin", email: "john@surebanker.com", phone: "+234 802 345 6789", type: "Admin", kycStatus: "Verified", region: "Nigeria", status: "Active", balance: 0 },
+    { id: "5", firstName: "Sarah", middleName: "Jane", lastName: "Support", email: "sarah@surebanker.com", phone: "+233 202 345 678", type: "Support", kycStatus: "Verified", region: "Ghana", status: "Active", balance: 0 },
+    { id: "6", firstName: "Mike", middleName: "", lastName: "SuperAdmin", email: "mike@surebanker.com", phone: "+254 702 345 678", type: "SuperAdmin", kycStatus: "Verified", region: "Kenya", status: "Active", balance: 0 }
   ];
 
   const regions = [
@@ -170,9 +203,11 @@ export const SuperAdminDashboard = (): JSX.Element => {
   ];
 
   const posTerminals = [
-    { id: "POS001", terminalId: "TRM12345", merchantName: "Main Store", location: "Lagos, Nigeria", status: "Active", dailyVolume: 450000, transactionCount: 156, uptime: "99.8%" },
-    { id: "POS002", terminalId: "TRM12346", merchantName: "Satellite Office", location: "Accra, Ghana", status: "Offline", dailyVolume: 0, transactionCount: 0, uptime: "0%" },
-    { id: "POS003", terminalId: "TRM12347", merchantName: "Branch Store", location: "Nairobi, Kenya", status: "Maintenance", dailyVolume: 125000, transactionCount: 45, uptime: "95.2%" }
+    { id: "POS001", terminalId: "TRM12345", merchantName: "Main Store", location: "Lagos, Nigeria", status: "Active", dailyVolume: 450000, transactionCount: 156, uptime: "99.8%", assignedUser: "Tech Solutions Ltd", serialNumber: "SN001234", model: "POS-X1" },
+    { id: "POS002", terminalId: "TRM12346", merchantName: "Satellite Office", location: "Accra, Ghana", status: "Offline", dailyVolume: 0, transactionCount: 0, uptime: "0%", assignedUser: "Retail Masters Inc", serialNumber: "SN001235", model: "POS-X2" },
+    { id: "POS003", terminalId: "TRM12347", merchantName: "Branch Store", location: "Nairobi, Kenya", status: "Maintenance", dailyVolume: 125000, transactionCount: 45, uptime: "95.2%", assignedUser: "Green Energy Corp", serialNumber: "SN001236", model: "POS-X1" },
+    { id: "POS004", terminalId: "TRM12348", merchantName: "Unassigned Terminal", location: "Lagos, Nigeria", status: "Inactive", dailyVolume: 0, transactionCount: 0, uptime: "0%", assignedUser: null, serialNumber: "SN001237", model: "POS-X3" },
+    { id: "POS005", terminalId: "TRM12349", merchantName: "Unassigned Terminal", location: "Accra, Ghana", status: "Inactive", dailyVolume: 0, transactionCount: 0, uptime: "0%", assignedUser: null, serialNumber: "SN001238", model: "POS-X2" }
   ];
 
   const approvalRequests = [
@@ -2311,6 +2346,52 @@ export const SuperAdminDashboard = (): JSX.Element => {
 
   const renderPOS = () => (
     <div className="space-y-6">
+      {/* POS Notifications */}
+      {posNotifications.filter(n => !n.isRead).length > 0 && (
+        <Card className="bg-blue-50 border-blue-200">
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3 mb-3">
+              <BellIcon className="w-5 h-5 text-blue-600" />
+              <h3 className="font-semibold text-blue-900">POS Terminal Notifications</h3>
+              <Badge className="bg-blue-500 text-white">
+                {posNotifications.filter(n => !n.isRead).length} new
+              </Badge>
+            </div>
+            <div className="space-y-2">
+              {posNotifications.filter(n => !n.isRead).slice(0, 3).map((notification) => (
+                <div key={notification.id} className="flex items-center justify-between p-3 bg-white rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                      notification.type === 'request' ? 'bg-orange-100' : 'bg-green-100'
+                    }`}>
+                      {notification.type === 'request' ? 
+                        <ClockIcon className="w-4 h-4 text-orange-600" /> : 
+                        <CheckCircleIcon className="w-4 h-4 text-green-600" />
+                      }
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-blue-900">{notification.message}</p>
+                      <p className="text-xs text-blue-700">{notification.timestamp}</p>
+                    </div>
+                  </div>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => {
+                      setPosNotifications(prev => 
+                        prev.map(n => n.id === notification.id ? {...n, isRead: true} : n)
+                      );
+                    }}
+                  >
+                    Mark Read
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-[#1E293B]">POS Management</h2>
@@ -2323,7 +2404,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
           </Button>
           <Button 
             className="bg-[#5B52FF] text-white"
-            onClick={() => showSuccess("Terminal Added", "New POS terminal has been added and configured successfully")}
+            onClick={() => setShowAddTerminalModal(true)}
           >
             <PlusIcon className="w-4 h-4 mr-2" />
             Add Terminal
@@ -2341,7 +2422,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
               </div>
               <div>
                 <p className="text-sm text-[#64748B]">Total Terminals</p>
-                <p className="text-2xl font-bold text-[#1E293B]">2,456</p>
+                <p className="text-2xl font-bold text-[#1E293B]">{posTerminals.length}</p>
               </div>
             </div>
           </CardContent>
@@ -2355,7 +2436,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
               </div>
               <div>
                 <p className="text-sm text-[#64748B]">Active</p>
-                <p className="text-2xl font-bold text-[#1E293B]">2,234</p>
+                <p className="text-2xl font-bold text-[#1E293B]">{posTerminals.filter(t => t.status === 'Active').length}</p>
               </div>
             </div>
           </CardContent>
@@ -2369,7 +2450,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
               </div>
               <div>
                 <p className="text-sm text-[#64748B]">Offline</p>
-                <p className="text-2xl font-bold text-[#1E293B]">156</p>
+                <p className="text-2xl font-bold text-[#1E293B]">{posTerminals.filter(t => t.status === 'Offline').length}</p>
               </div>
             </div>
           </CardContent>
@@ -2383,7 +2464,21 @@ export const SuperAdminDashboard = (): JSX.Element => {
               </div>
               <div>
                 <p className="text-sm text-[#64748B]">Maintenance</p>
-                <p className="text-2xl font-bold text-[#1E293B]">66</p>
+                <p className="text-2xl font-bold text-[#1E293B]">{posTerminals.filter(t => t.status === 'Maintenance').length}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                <XCircleIcon className="w-6 h-6 text-gray-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Unassigned</p>
+                <p className="text-2xl font-bold text-[#1E293B]">{posTerminals.filter(t => !t.assignedUser).length}</p>
               </div>
             </div>
           </CardContent>
@@ -2397,7 +2492,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
               </div>
               <div>
                 <p className="text-sm text-[#64748B]">Daily Transactions</p>
-                <p className="text-2xl font-bold text-[#1E293B]">45,678</p>
+                <p className="text-2xl font-bold text-[#1E293B]">{posTerminals.reduce((sum, t) => sum + t.transactionCount, 0)}</p>
               </div>
             </div>
           </CardContent>
@@ -2411,25 +2506,12 @@ export const SuperAdminDashboard = (): JSX.Element => {
               </div>
               <div>
                 <p className="text-sm text-[#64748B]">Daily Volume</p>
-                <p className="text-2xl font-bold text-[#1E293B]">₦125M</p>
+                <p className="text-2xl font-bold text-[#1E293B]">₦{(posTerminals.reduce((sum, t) => sum + t.dailyVolume, 0) / 1000000).toFixed(1)}M</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center">
-                <TrendingUpIcon className="w-6 h-6 text-teal-600" />
-              </div>
-              <div>
-                <p className="text-sm text-[#64748B]">Success Rate</p>
-                <p className="text-2xl font-bold text-[#1E293B]">98.7%</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       {/* POS Terminals Table */}
@@ -2438,6 +2520,14 @@ export const SuperAdminDashboard = (): JSX.Element => {
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-[#1E293B]">POS Terminals</h3>
             <div className="flex gap-3">
+              <Button 
+                variant="outline" 
+                className="flex items-center gap-2"
+                onClick={() => setShowAssignTerminalModal(true)}
+              >
+                <UserIcon className="w-4 h-4" />
+                Assign Terminal
+              </Button>
               <div className="relative">
                 <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
                 <Input
@@ -2456,6 +2546,8 @@ export const SuperAdminDashboard = (): JSX.Element => {
                 <option value="active">Active</option>
                 <option value="offline">Offline</option>
                 <option value="maintenance">Maintenance</option>
+                <option value="inactive">Inactive</option>
+                <option value="frozen">Frozen</option>
               </select>
             </div>
           </div>
@@ -2467,6 +2559,9 @@ export const SuperAdminDashboard = (): JSX.Element => {
                   <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">POS ID</th>
                   <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TERMINAL ID</th>
                   <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">MERCHANT NAME</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ASSIGNED USER</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">SERIAL NUMBER</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">MODEL</th>
                   <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">LOCATION</th>
                   <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
                   <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">DAILY VOLUME</th>
@@ -2481,11 +2576,32 @@ export const SuperAdminDashboard = (): JSX.Element => {
                     <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{terminal.id}</td>
                     <td className="py-3 px-4 text-sm text-[#64748B]">{terminal.terminalId}</td>
                     <td className="py-3 px-4 text-sm text-[#64748B]">{terminal.merchantName}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">
+                      {terminal.assignedUser ? (
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                            <CheckIcon className="w-3 h-3 text-green-600" />
+                          </div>
+                          {terminal.assignedUser}
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center">
+                            <XIcon className="w-3 h-3 text-gray-600" />
+                          </div>
+                          <span className="text-gray-500">Unassigned</span>
+                        </div>
+                      )}
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{terminal.serialNumber}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{terminal.model}</td>
                     <td className="py-3 px-4 text-sm text-[#64748B]">{terminal.location}</td>
                     <td className="py-3 px-4">
                       <Badge className={
                         terminal.status === "Active" ? "bg-green-100 text-green-800" :
                         terminal.status === "Offline" ? "bg-red-100 text-red-800" :
+                        terminal.status === "Frozen" ? "bg-blue-100 text-blue-800" :
+                        terminal.status === "Inactive" ? "bg-gray-100 text-gray-800" :
                         "bg-yellow-100 text-yellow-800"
                       }>
                         {terminal.status}
@@ -2502,16 +2618,26 @@ export const SuperAdminDashboard = (): JSX.Element => {
                         <Button 
                           variant="ghost" 
                           size="sm"
-                          onClick={() => showSuccess("Terminal Suspended", `Terminal ${terminal.terminalId} has been suspended successfully`)}
+                          onClick={() => showSuccess("Terminal Frozen", `Terminal ${terminal.terminalId} has been frozen successfully`)}
                         >
-                          <PauseIcon className="w-4 h-4" />
+                          <XCircleIcon className="w-4 h-4" />
                         </Button>
                         <Button 
                           variant="ghost" 
                           size="sm"
                           onClick={() => showSuccess("Terminal Activated", `Terminal ${terminal.terminalId} has been activated successfully`)}
                         >
-                          <PlayIcon className="w-4 h-4" />
+                          <CheckCircleIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => {
+                            setSelectedTerminal(terminal);
+                            setShowAssignTerminalModal(true);
+                          }}
+                        >
+                          <UserIcon className="w-4 h-4" />
                         </Button>
                       </div>
                     </td>
@@ -6320,6 +6446,342 @@ export const SuperAdminDashboard = (): JSX.Element => {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Add Terminal Modal */}
+      {showAddTerminalModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <Card className="w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-[#1E293B]">Add New POS Terminal</h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowAddTerminalModal(false)}>
+                  <XIcon className="w-4 h-4" />
+                </Button>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Terminal ID *</label>
+                  <Input
+                    placeholder="e.g., TRM12350"
+                    value={terminalFormData.terminalId}
+                    onChange={(e) => setTerminalFormData({...terminalFormData, terminalId: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Serial Number *</label>
+                  <Input
+                    placeholder="e.g., SN001239"
+                    value={terminalFormData.serialNumber}
+                    onChange={(e) => setTerminalFormData({...terminalFormData, serialNumber: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Merchant Name *</label>
+                  <Input
+                    placeholder="e.g., Main Store"
+                    value={terminalFormData.merchantName}
+                    onChange={(e) => setTerminalFormData({...terminalFormData, merchantName: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Model *</label>
+                  <select 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    value={terminalFormData.model}
+                    onChange={(e) => setTerminalFormData({...terminalFormData, model: e.target.value})}
+                  >
+                    <option value="">Select Model</option>
+                    <option value="POS-X1">POS-X1</option>
+                    <option value="POS-X2">POS-X2</option>
+                    <option value="POS-X3">POS-X3</option>
+                    <option value="POS-Pro">POS-Pro</option>
+                  </select>
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Location *</label>
+                  <Input
+                    placeholder="e.g., Lagos, Nigeria"
+                    value={terminalFormData.location}
+                    onChange={(e) => setTerminalFormData({...terminalFormData, location: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Region *</label>
+                  <select 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    value={terminalFormData.region}
+                    onChange={(e) => setTerminalFormData({...terminalFormData, region: e.target.value})}
+                  >
+                    <option value="">Select Region</option>
+                    <option value="Nigeria">Nigeria</option>
+                    <option value="Ghana">Ghana</option>
+                    <option value="Kenya">Kenya</option>
+                    <option value="South Africa">South Africa</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Daily Limit</label>
+                  <Input
+                    placeholder="e.g., 1000000"
+                    value={terminalFormData.dailyLimit}
+                    onChange={(e) => setTerminalFormData({...terminalFormData, dailyLimit: e.target.value})}
+                  />
+                </div>
+              </div>
+              
+              <div className="flex gap-4 mt-6">
+                <Button 
+                  variant="outline" 
+                  className="flex-1"
+                  onClick={() => setShowAddTerminalModal(false)}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  className="flex-1 bg-[#5B52FF] text-white"
+                  onClick={() => {
+                    setShowAddTerminalModal(false);
+                    showSuccess("Terminal Added", "New POS terminal has been added to the system successfully");
+                    setTerminalFormData({
+                      terminalId: "",
+                      merchantName: "",
+                      location: "",
+                      region: "",
+                      serialNumber: "",
+                      model: "",
+                      dailyLimit: "",
+                      monthlyLimit: ""
+                    });
+                  }}
+                  disabled={!terminalFormData.terminalId || !terminalFormData.merchantName || !terminalFormData.location || !terminalFormData.region}
+                >
+                  Add Terminal
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Assign Terminal Modal */}
+      {showAssignTerminalModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <Card className="w-full max-w-lg mx-4">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-[#1E293B]">Assign POS Terminal</h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowAssignTerminalModal(false)}>
+                  <XIcon className="w-4 h-4" />
+                </Button>
+              </div>
+              
+              {selectedTerminal && (
+                <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+                  <h4 className="font-semibold text-[#1E293B] mb-2">Terminal Details</h4>
+                  <p className="text-sm text-[#64748B]">Terminal ID: {selectedTerminal.terminalId}</p>
+                  <p className="text-sm text-[#64748B]">Location: {selectedTerminal.location}</p>
+                  <p className="text-sm text-[#64748B]">Model: {selectedTerminal.model}</p>
+                </div>
+              )}
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Select User to Assign</label>
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                    <option value="">Choose a business user...</option>
+                    {users.filter(u => u.type === "Business").map((user) => (
+                      <option key={user.id} value={user.id}>
+                        {user.firstName} {user.lastName} - {user.email}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Assignment Notes</label>
+                  <textarea 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg h-20 resize-none"
+                    placeholder="Add any notes about this assignment..."
+                  />
+                </div>
+              </div>
+              
+              <div className="flex gap-4 mt-6">
+                <Button 
+                  variant="outline" 
+                  className="flex-1"
+                  onClick={() => {
+                    setShowAssignTerminalModal(false);
+                    setSelectedTerminal(null);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  className="flex-1 bg-[#5B52FF] text-white"
+                  onClick={() => {
+                    setShowAssignTerminalModal(false);
+                    setSelectedTerminal(null);
+                    showSuccess("Terminal Assigned", "POS terminal has been assigned to user successfully");
+                  }}
+                >
+                  Assign Terminal
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* User Details Modal */}
+      {showUserDetailsModal && selectedUser && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <Card className="w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <Avatar className="w-12 h-12">
+                    <AvatarFallback className="bg-[#5B52FF] text-white">
+                      {selectedUser.firstName.charAt(0)}{selectedUser.lastName.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#1E293B]">
+                      {selectedUser.firstName} {selectedUser.middleName} {selectedUser.lastName}
+                    </h3>
+                    <p className="text-[#64748B]">{selectedUser.type} User</p>
+                  </div>
+                </div>
+                <Button variant="ghost" size="sm" onClick={() => setShowUserDetailsModal(false)}>
+                  <XIcon className="w-4 h-4" />
+                </Button>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">First Name</label>
+                  <Input
+                    value={userFormData.firstName}
+                    onChange={(e) => setUserFormData({...userFormData, firstName: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Middle Name</label>
+                  <Input
+                    value={userFormData.middleName}
+                    onChange={(e) => setUserFormData({...userFormData, middleName: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Last Name</label>
+                  <Input
+                    value={userFormData.lastName}
+                    onChange={(e) => setUserFormData({...userFormData, lastName: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Email Address</label>
+                  <Input
+                    value={userFormData.email}
+                    onChange={(e) => setUserFormData({...userFormData, email: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Phone Number</label>
+                  <Input
+                    value={userFormData.phone}
+                    onChange={(e) => setUserFormData({...userFormData, phone: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">User Type</label>
+                  <select 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    value={userFormData.userType}
+                    onChange={(e) => setUserFormData({...userFormData, userType: e.target.value})}
+                  >
+                    <option value="Individual">Individual</option>
+                    <option value="Business">Business</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Support">Support</option>
+                    <option value="Developer">Developer</option>
+                    <option value="SuperAdmin">SuperAdmin</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Region</label>
+                  <select 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    value={userFormData.region}
+                    onChange={(e) => setUserFormData({...userFormData, region: e.target.value})}
+                  >
+                    <option value="Nigeria">Nigeria</option>
+                    <option value="Ghana">Ghana</option>
+                    <option value="Kenya">Kenya</option>
+                    <option value="South Africa">South Africa</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Account Status</label>
+                  <select 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    value={userFormData.status}
+                    onChange={(e) => setUserFormData({...userFormData, status: e.target.value})}
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Frozen">Frozen</option>
+                    <option value="Deactivated">Deactivated</option>
+                  </select>
+                </div>
+              </div>
+              
+              {/* User Statistics */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+                <div className="text-center">
+                  <p className="text-sm text-[#64748B]">Account Balance</p>
+                  <p className="text-lg font-bold text-[#1E293B]">
+                    {selectedUser.type === "Individual" || selectedUser.type === "Business" 
+                      ? `₦${selectedUser.balance.toLocaleString()}` 
+                      : 'N/A'
+                    }
+                  </p>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm text-[#64748B]">KYC/KYB Status</p>
+                  <Badge className="bg-green-100 text-green-800">
+                    {selectedUser.kycStatus || selectedUser.kybStatus}
+                  </Badge>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm text-[#64748B]">Last Login</p>
+                  <p className="text-sm text-[#64748B]">2 hours ago</p>
+                </div>
+              </div>
+              
+              <div className="flex gap-4">
+                <Button 
+                  variant="outline" 
+                  className="flex-1"
+                  onClick={() => setShowUserDetailsModal(false)}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  className="flex-1 bg-[#5B52FF] text-white"
+                  onClick={() => {
+                    setShowUserDetailsModal(false);
+                    setSelectedUser(null);
+                    showSuccess("User Updated", "User information has been updated successfully");
+                  }}
+                >
+                  Save Changes
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {/* Success Modal with Blur Background */}
       {showSuccessModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9998]">
@@ -6360,7 +6822,28 @@ export const SuperAdminDashboard = (): JSX.Element => {
             <div className="mb-4">
               <AccountTypeSwitcher variant="sidebar" />
             </div>
+
+            <div className="space-y-1">
+              {superAdminNavItems.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => setCurrentPage(item.id)}
+                  className={`px-3 py-2 rounded-lg flex items-center gap-3 cursor-pointer transition-colors ${
+                    currentPage === item.id
+                      ? "bg-[#5B52FF] text-white"
+                      : "text-[#64748B] hover:bg-gray-50"
+                  }`}
+                >
+                  {item.icon}
+                  <div className="flex-1">
+                    <span className="font-medium text-sm">{item.name}</span>
+                    <p className="text-xs opacity-70">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </nav>
+
           <div className="p-4">
             <Card className="bg-gradient-to-br from-purple-500 to-pink-500 text-white">
               <CardContent className="p-4">
@@ -6401,6 +6884,14 @@ export const SuperAdminDashboard = (): JSX.Element => {
                   <SearchIcon className="w-5 h-5 text-[#64748B]" />
                 </Button>
                 
+                <div className="relative">
+                  <Button variant="ghost" size="sm" className="p-2">
+                    <BellIcon className="w-5 h-5 text-[#64748B]" onClick={() => navigate("/notifications")} />
+                  </Button>
+                  <Badge className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs flex items-center justify-center p-0 animate-pulse">
+                    {posNotifications.filter(n => !n.isRead).length + 5}
+                  </Badge>
+                </div>
 
                 <div className="flex items-center gap-3">
                   <ProfileDropdown

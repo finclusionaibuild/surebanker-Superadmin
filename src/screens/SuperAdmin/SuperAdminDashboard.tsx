@@ -174,12 +174,12 @@ export const SuperAdminDashboard = (): JSX.Element => {
   ];
 
   const users = [
-    { id: "1", firstName: "Carchy", middleName: "Chijioke", lastName: "Atinse", email: "carchy@email.com", phone: "+234 801 234 5678", type: "Individual", kycStatus: "Tier 2", region: "Nigeria", status: "Active", balance: 120000 },
-    { id: "2", firstName: "Tech", middleName: "", lastName: "Solutions Ltd", email: "admin@techsolutions.com", phone: "+233 201 234 5678", type: "Business", kybStatus: "Tier 3", region: "Ghana", status: "Active", balance: 2500000 },
-    { id: "3", firstName: "Alex", middleName: "James", lastName: "Developer", email: "alex@dev.com", phone: "+254 701 234 567", type: "Developer", kycStatus: "Tier 1", region: "Kenya", status: "Active", balance: 50000 },
-    { id: "4", firstName: "John", middleName: "Michael", lastName: "Admin", email: "john@surebanker.com", phone: "+234 802 345 6789", type: "Admin", kycStatus: "Verified", region: "Nigeria", status: "Active", balance: 0 },
-    { id: "5", firstName: "Sarah", middleName: "Jane", lastName: "Support", email: "sarah@surebanker.com", phone: "+233 202 345 678", type: "Support", kycStatus: "Verified", region: "Ghana", status: "Active", balance: 0 },
-    { id: "6", firstName: "Mike", middleName: "", lastName: "SuperAdmin", email: "mike@surebanker.com", phone: "+254 702 345 678", type: "SuperAdmin", kycStatus: "Verified", region: "Kenya", status: "Active", balance: 0 }
+    { id: "1", firstName: "Carchy", middleName: "Chijioke", lastName: "Atinse", email: "carchy@email.com", phone: "+234 801 234 5678", type: "Individual", kycStatus: "Tier 2", region: "Nigeria", status: "Active", balance: 120000, name: "Carchy Chijioke Atinse" },
+    { id: "2", firstName: "Tech", middleName: "", lastName: "Solutions Ltd", email: "admin@techsolutions.com", phone: "+233 201 234 5678", type: "Business", kybStatus: "Tier 3", region: "Ghana", status: "Active", balance: 2500000, name: "Tech Solutions Ltd" },
+    { id: "3", firstName: "Alex", middleName: "James", lastName: "Developer", email: "alex@dev.com", phone: "+254 701 234 567", type: "Developer", kycStatus: "Tier 1", region: "Kenya", status: "Active", balance: 50000, name: "Alex James Developer" },
+    { id: "4", firstName: "John", middleName: "Michael", lastName: "Admin", email: "john@surebanker.com", phone: "+234 802 345 6789", type: "Admin", kycStatus: "Verified", region: "Nigeria", status: "Active", balance: 0, name: "John Michael Admin" },
+    { id: "5", firstName: "Sarah", middleName: "Jane", lastName: "Support", email: "sarah@surebanker.com", phone: "+233 202 345 678", type: "Support", kycStatus: "Verified", region: "Ghana", status: "Active", balance: 0, name: "Sarah Jane Support" },
+    { id: "6", firstName: "Mike", middleName: "", lastName: "SuperAdmin", email: "mike@surebanker.com", phone: "+254 702 345 678", type: "SuperAdmin", kycStatus: "Verified", region: "Kenya", status: "Active", balance: 0, name: "Mike SuperAdmin" }
   ];
 
   const regions = [
@@ -3506,3 +3506,211 @@ export const SuperAdminDashboard = (): JSX.Element => {
                 <p className="text-sm text-[#64748B]">Monthly Revenue</p>
                 <p className="text-2xl font-bold text-[#1E293B]">₦125M</p>
               </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <TrendingDownIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Churn Rate</p>
+                <p className="text-2xl font-bold text-[#1E293B]">1.8%</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                <TrendingUpIcon className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">ARPU</p>
+                <p className="text-2xl font-bold text-[#1E293B]">₦73</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Subscription Plans Table */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Subscription Plans</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">PLAN ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">PLAN NAME</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">SUBSCRIBERS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">MONTHLY REVENUE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CHURN RATE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ARPU</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {subscriptions.map((subscription) => (
+                  <tr key={subscription.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{subscription.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{subscription.planName}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{subscription.subscribers.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">₦{subscription.monthlyRevenue.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{subscription.churnRate}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">₦{subscription.arpu}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <EditIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Plan Updated", `${subscription.planName} has been updated successfully`)}
+                        >
+                          <SettingsIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  // Render current page content
+  const renderCurrentPage = () => {
+    switch (currentPage) {
+      case "dashboard":
+        return renderDashboard();
+      case "admin-users":
+        return renderAdminUsers();
+      case "rbac":
+        return renderRBAC();
+      case "users":
+        return renderUsers();
+      case "kyc":
+        return renderKYC();
+      case "kyb":
+        return renderKYB();
+      case "regional":
+        return renderRegional();
+      case "bulk-data":
+        return renderBulkData();
+      case "approval-workflow":
+        return renderApprovalWorkflow();
+      case "transactions":
+        return renderTransactions();
+      case "cards":
+        return renderCards();
+      case "pos":
+        return renderPOS();
+      case "third-party":
+        return renderThirdParty();
+      case "api":
+        return renderAPI();
+      case "developer":
+        return renderDeveloper();
+      case "marketplace":
+        return renderMarketplace();
+      case "database":
+        return renderDatabase();
+      case "system-health":
+        return renderSystemHealth();
+      case "subscription":
+        return renderSubscription();
+      default:
+        return renderDashboard();
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4 text-center">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircleIcon className="w-8 h-8 text-green-600" />
+            </div>
+            <h3 className="text-xl font-semibold text-[#1E293B] mb-2">{successMessage.title}</h3>
+            <p className="text-[#64748B] mb-6">{successMessage.message}</p>
+            <Button 
+              className="bg-[#5B52FF] text-white"
+              onClick={() => setShowSuccessModal(false)}
+            >
+              Continue
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Header */}
+      <header className="bg-white border-b border-gray-200 px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <h1 className="text-xl font-bold text-[#1E293B]">SureBanker Super Admin</h1>
+            <Badge className="bg-purple-100 text-purple-800">Super Admin</Badge>
+          </div>
+          <div className="flex items-center gap-4">
+            <AccountTypeSwitcher />
+            <Button variant="ghost" size="sm" className="relative">
+              <BellIcon className="w-5 h-5" />
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+            </Button>
+            <ProfileDropdown />
+          </div>
+        </div>
+      </header>
+
+      <div className="flex">
+        {/* Sidebar */}
+        <aside className="w-80 bg-white border-r border-gray-200 h-screen overflow-y-auto">
+          <div className="p-6">
+            <h2 className="text-lg font-semibold text-[#1E293B] mb-4">Super Admin Panel</h2>
+            <div className="space-y-2">
+              {superAdminNavItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setCurrentPage(item.id)}
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors ${
+                    currentPage === item.id
+                      ? "bg-[#5B52FF] text-white"
+                      : "text-[#64748B] hover:bg-gray-100"
+                  }`}
+                >
+                  {item.icon}
+                  <div>
+                    <div className="font-medium text-sm">{item.name}</div>
+                    <div className={`text-xs ${currentPage === item.id ? "text-blue-100" : "text-gray-500"}`}>
+                      {item.description}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </aside>
+
+        {/* Main Content */}
+        <main className="flex-1 p-6">
+          {renderCurrentPage()}
+        </main>
+      </div>
+    </div>
+  );
+};

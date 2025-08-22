@@ -3506,3 +3506,3483 @@ export const SuperAdminDashboard = (): JSX.Element => {
                 <p className="text-sm text-[#64748B]">Monthly Revenue</p>
                 <p className="text-2xl font-bold text-[#1E293B]">₦125M</p>
               </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <TrendingUpIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">ARPU</p>
+                <p className="text-2xl font-bold text-[#1E293B]">₦73</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                <TrendingDownIcon className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Churn Rate</p>
+                <p className="text-2xl font-bold text-[#1E293B]">2.1%</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Subscription Plans Table */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Subscription Plans</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">PLAN ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">PLAN NAME</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">SUBSCRIBERS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">MONTHLY REVENUE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CHURN RATE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ARPU</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {subscriptions.map((subscription) => (
+                  <tr key={subscription.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{subscription.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{subscription.planName}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{subscription.subscribers.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">₦{subscription.monthlyRevenue.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{subscription.churnRate}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">₦{subscription.arpu}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <EditIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Plan Updated", `${subscription.planName} has been updated successfully`)}
+                        >
+                          <SettingsIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderSystemLogs = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">System Log & Configuration Management</h2>
+          <p className="text-[#64748B]">Monitor system logs, errors, and configuration settings</p>
+        </div>
+        <div className="flex gap-3">
+          <Button variant="outline" className="flex items-center gap-2">
+            <DownloadIcon className="w-4 h-4" />
+            Export Logs
+          </Button>
+          <Button 
+            className="bg-[#5B52FF] text-white"
+            onClick={() => showSuccess("Configuration Updated", "System configuration has been updated successfully")}
+          >
+            <SettingsIcon className="w-4 h-4 mr-2" />
+            Update Config
+          </Button>
+        </div>
+      </div>
+
+      {/* System Log Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <FileTextIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Log Entries</p>
+                <p className="text-2xl font-bold text-[#1E293B]">2.5M</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <CheckCircleIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Success Rate</p>
+                <p className="text-2xl font-bold text-[#1E293B]">99.94%</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                <AlertTriangleIcon className="w-6 h-6 text-red-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Error Logs</p>
+                <p className="text-2xl font-bold text-[#1E293B]">156</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <HardDriveIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Log Storage</p>
+                <p className="text-2xl font-bold text-[#1E293B]">847GB</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* System Logs Table */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-[#1E293B]">Recent System Logs</h3>
+            <div className="flex gap-3">
+              <div className="relative">
+                <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
+                <Input
+                  placeholder="Search logs..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 w-64"
+                />
+              </div>
+              <select 
+                className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                value={selectedFilter}
+                onChange={(e) => setSelectedFilter(e.target.value)}
+              >
+                <option value="all">All Levels</option>
+                <option value="info">INFO</option>
+                <option value="warn">WARN</option>
+                <option value="error">ERROR</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">LOG ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">LEVEL</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">MESSAGE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TIMESTAMP</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">SOURCE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REGION</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {systemLogs.map((log) => (
+                  <tr key={log.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{log.id}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        log.level === "INFO" ? "bg-blue-100 text-blue-800" :
+                        log.level === "WARN" ? "bg-yellow-100 text-yellow-800" :
+                        "bg-red-100 text-red-800"
+                      }>
+                        {log.level}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B] max-w-xs truncate">{log.message}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{log.timestamp}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{log.source}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{log.region}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <DownloadIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderProfile = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Profile Settings & Management</h2>
+          <p className="text-[#64748B]">Manage your super admin profile and preferences</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Profile Updated", "Your profile has been updated successfully")}
+        >
+          <SaveIcon className="w-4 h-4 mr-2" />
+          Save Changes
+        </Button>
+      </div>
+
+      {/* Profile Information */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="lg:col-span-2">
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Personal Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-[#1E293B] mb-2">Full Name</label>
+                <Input defaultValue="Super Admin User" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-[#1E293B] mb-2">Email Address</label>
+                <Input defaultValue="superadmin@surebanker.com" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-[#1E293B] mb-2">Phone Number</label>
+                <Input defaultValue="+234 800 123 4567" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-[#1E293B] mb-2">Role</label>
+                <Input defaultValue="Super Administrator" disabled />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-[#1E293B] mb-2">Assigned Regions</label>
+                <div className="flex flex-wrap gap-2">
+                  {["Nigeria", "Ghana", "Kenya", "South Africa", "Tanzania"].map((region) => (
+                    <Badge key={region} className="bg-[#5B52FF] text-white">
+                      {region}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Security Settings</h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-[#64748B]">Two-Factor Authentication</span>
+                <Badge className="bg-green-100 text-green-800">Enabled</Badge>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-[#64748B]">Last Password Change</span>
+                <span className="text-sm text-[#64748B]">30 days ago</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-[#64748B]">Session Timeout</span>
+                <span className="text-sm text-[#64748B]">4 hours</span>
+              </div>
+              <Button variant="outline" className="w-full">
+                Change Password
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Activity Log */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Recent Activity</h3>
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                <CheckCircleIcon className="w-4 h-4 text-green-600" />
+              </div>
+              <div className="flex-1">
+                <p className="font-medium text-[#1E293B]">Approved KYC verification</p>
+                <p className="text-sm text-[#64748B]">Approved John Doe's Tier 2 KYC verification</p>
+              </div>
+              <span className="text-sm text-[#64748B]">2 hours ago</span>
+            </div>
+            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <SettingsIcon className="w-4 h-4 text-blue-600" />
+              </div>
+              <div className="flex-1">
+                <p className="font-medium text-[#1E293B]">Updated system configuration</p>
+                <p className="text-sm text-[#64748B]">Modified API rate limits for Ghana region</p>
+              </div>
+              <span className="text-sm text-[#64748B]">4 hours ago</span>
+            </div>
+            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+              <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                <UsersIcon className="w-4 h-4 text-purple-600" />
+              </div>
+              <div className="flex-1">
+                <p className="font-medium text-[#1E293B]">Created new admin user</p>
+                <p className="text-sm text-[#64748B]">Added Sarah Regional Admin to Kenya region</p>
+              </div>
+              <span className="text-sm text-[#64748B]">1 day ago</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderWallet = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Wallet Management</h2>
+          <p className="text-[#64748B]">Manage platform wallets, balances, and operations</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Wallet Updated", "Wallet configuration has been updated successfully")}
+        >
+          <WalletIcon className="w-4 h-4 mr-2" />
+          Configure Wallet
+        </Button>
+      </div>
+
+      {/* Wallet Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <WalletIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Wallets</p>
+                <p className="text-2xl font-bold text-[#1E293B]">2.5M</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <DollarSignIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Balance</p>
+                <p className="text-2xl font-bold text-[#1E293B]">₦45.8B</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <TrendingUpIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Daily Operations</p>
+                <p className="text-2xl font-bold text-[#1E293B]">125K</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                <CheckCircleIcon className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Success Rate</p>
+                <p className="text-2xl font-bold text-[#1E293B]">99.7%</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Wallet Operations Table */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Recent Wallet Operations</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">OPERATION ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">WALLET ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">OPERATION</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">AMOUNT</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TIMESTAMP</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REGION</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">BALANCE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {walletOperations.map((operation) => (
+                  <tr key={operation.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{operation.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{operation.walletId}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        operation.operation === "Deposit" ? "bg-green-100 text-green-800" :
+                        operation.operation === "Withdrawal" ? "bg-red-100 text-red-800" :
+                        "bg-blue-100 text-blue-800"
+                      }>
+                        {operation.operation}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">₦{operation.amount.toLocaleString()}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        operation.status === "Completed" ? "bg-green-100 text-green-800" :
+                        operation.status === "Failed" ? "bg-red-100 text-red-800" :
+                        "bg-yellow-100 text-yellow-800"
+                      }>
+                        {operation.status}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{operation.timestamp}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{operation.region}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">₦{operation.balance.toLocaleString()}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Wallet Updated", `Wallet ${operation.walletId} has been updated successfully`)}
+                        >
+                          <SettingsIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderEscrow = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Escrow Management</h2>
+          <p className="text-[#64748B]">Manage escrow transactions and secure holdings</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Escrow Released", "Escrow funds have been released successfully")}
+        >
+          <HandshakeIcon className="w-4 h-4 mr-2" />
+          Release Escrow
+        </Button>
+      </div>
+
+      {/* Escrow Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <HandshakeIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Escrows</p>
+                <p className="text-2xl font-bold text-[#1E293B]">8,456</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <DollarSignIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Value</p>
+                <p className="text-2xl font-bold text-[#1E293B]">₦12.8B</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                <ClockIcon className="w-6 h-6 text-yellow-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Active Escrows</p>
+                <p className="text-2xl font-bold text-[#1E293B]">1,234</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                <AlertTriangleIcon className="w-6 h-6 text-red-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Disputed</p>
+                <p className="text-2xl font-bold text-[#1E293B]">45</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Escrow Transactions Table */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Escrow Transactions</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ESCROW ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TRANSACTION ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">AMOUNT</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">BUYER</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">SELLER</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CREATED DATE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">RELEASE DATE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REGION</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {escrowTransactions.map((escrow) => (
+                  <tr key={escrow.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{escrow.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{escrow.transactionId}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">₦{escrow.amount.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{escrow.buyer}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{escrow.seller}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        escrow.status === "Released" ? "bg-green-100 text-green-800" :
+                        escrow.status === "Disputed" ? "bg-red-100 text-red-800" :
+                        "bg-yellow-100 text-yellow-800"
+                      }>
+                        {escrow.status}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{escrow.createdDate}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{escrow.releaseDate}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{escrow.region}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Escrow Released", `Escrow ${escrow.id} has been released successfully`)}
+                        >
+                          <CheckIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <AlertTriangleIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderBackgroundCheck = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Background Check Management System</h2>
+          <p className="text-[#64748B]">Manage user screening and compliance verification</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Background Check Initiated", "Background check has been initiated successfully")}
+        >
+          <SearchCheckIcon className="w-4 h-4 mr-2" />
+          Run Check
+        </Button>
+      </div>
+
+      {/* Background Check Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <SearchCheckIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Checks</p>
+                <p className="text-2xl font-bold text-[#1E293B]">45,623</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <CheckCircleIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Passed</p>
+                <p className="text-2xl font-bold text-[#1E293B]">42,156</p>
+                <p className="text-sm text-green-600">92.4% pass rate</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                <ClockIcon className="w-6 h-6 text-yellow-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">In Progress</p>
+                <p className="text-2xl font-bold text-[#1E293B]">2,345</p>
+                <p className="text-sm text-yellow-600">Avg 3.2 days</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                <XCircleIcon className="w-6 h-6 text-red-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Failed</p>
+                <p className="text-2xl font-bold text-[#1E293B]">1,122</p>
+                <p className="text-sm text-red-600">2.5% fail rate</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Background Checks Table */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Background Check Results</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CHECK ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">USER ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CHECK TYPE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">SCORE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">COMPLETED DATE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REGION</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {backgroundChecks.map((check) => (
+                  <tr key={check.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{check.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{check.userId}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{check.checkType}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        check.status === "Completed" ? "bg-green-100 text-green-800" :
+                        check.status === "Failed" ? "bg-red-100 text-red-800" :
+                        "bg-yellow-100 text-yellow-800"
+                      }>
+                        {check.status}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{check.score}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{check.completedDate}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{check.region}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Check Completed", `Background check ${check.id} has been completed successfully`)}
+                        >
+                          <CheckIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <DownloadIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderReports = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Report & Analytics Management</h2>
+          <p className="text-[#64748B]">Generate and manage platform reports and analytics</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Report Generated", "Platform analytics report has been generated successfully")}
+        >
+          <PieChartIcon className="w-4 h-4 mr-2" />
+          Generate Report
+        </Button>
+      </div>
+
+      {/* Report Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <PieChartIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Reports</p>
+                <p className="text-2xl font-bold text-[#1E293B]">1,456</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <DownloadIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Downloads Today</p>
+                <p className="text-2xl font-bold text-[#1E293B]">234</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <BarChart3Icon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Scheduled Reports</p>
+                <p className="text-2xl font-bold text-[#1E293B]">45</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                <CalendarIcon className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Report Types</p>
+                <p className="text-2xl font-bold text-[#1E293B]">12</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Available Reports */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Available Reports</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { name: "User Analytics", description: "User growth and engagement metrics", icon: <UsersIcon className="w-5 h-5" /> },
+              { name: "Transaction Report", description: "Transaction volume and success rates", icon: <CreditCardIcon className="w-5 h-5" /> },
+              { name: "Revenue Analytics", description: "Revenue trends and forecasting", icon: <DollarSignIcon className="w-5 h-5" /> },
+              { name: "Regional Performance", description: "Performance metrics by region", icon: <GlobeIcon className="w-5 h-5" /> },
+              { name: "System Performance", description: "System health and performance metrics", icon: <ActivityIcon className="w-5 h-5" /> },
+              { name: "Security Report", description: "Security events and compliance", icon: <ShieldIcon className="w-5 h-5" /> }
+            ].map((report, index) => (
+              <div key={index} className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 bg-[#5B52FF] rounded-lg flex items-center justify-center text-white">
+                    {report.icon}
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-[#1E293B]">{report.name}</h4>
+                    <p className="text-sm text-[#64748B]">{report.description}</p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button size="sm" variant="outline" className="flex-1">
+                    <EyeIcon className="w-4 h-4 mr-2" />
+                    View
+                  </Button>
+                  <Button size="sm" variant="outline" className="flex-1">
+                    <DownloadIcon className="w-4 h-4 mr-2" />
+                    Export
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderDisputes = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Dispute Management</h2>
+          <p className="text-[#64748B]">Manage transaction disputes and resolution processes</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={()=> showSuccess("Dispute Resolved", "Dispute has been resolved and all parties have been notified")}
+        >
+          <CheckCircleIcon className="w-4 h-4 mr-2" />
+          Resolve Dispute
+        </Button>
+      </div>
+
+      {/* Dispute Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                <AlertTriangleIcon className="w-6 h-6 text-yellow-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Open Disputes</p>
+                <p className="text-2xl font-bold text-[#1E293B]">45</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <CheckCircleIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Resolution Rate</p>
+                <p className="text-2xl font-bold text-[#1E293B]">92%</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <ClockIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Avg Resolution Time</p>
+                <p className="text-2xl font-bold text-[#1E293B]">3.2 days</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <DollarSignIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Disputed Amount</p>
+                <p className="text-2xl font-bold text-[#1E293B]">₦8.9M</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Disputes Table */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-[#1E293B]">Active Disputes</h3>
+            <div className="flex gap-3">
+              <div className="relative">
+                <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
+                <Input
+                  placeholder="Search disputes..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 w-64"
+                />
+              </div>
+              <select 
+                className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                value={selectedFilter}
+                onChange={(e) => setSelectedFilter(e.target.value)}
+              >
+                <option value="all">All Status</option>
+                <option value="open">Open</option>
+                <option value="in-progress">In Progress</option>
+                <option value="resolved">Resolved</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">DISPUTE ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TRANSACTION ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">AMOUNT</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TYPE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">PRIORITY</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ASSIGNED TO</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CREATED DATE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REGION</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {disputes.map((dispute) => (
+                  <tr key={dispute.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{dispute.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{dispute.transactionId}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">₦{dispute.amount.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{dispute.type}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        dispute.status === "Resolved" ? "bg-green-100 text-green-800" :
+                        dispute.status === "In Progress" ? "bg-blue-100 text-blue-800" :
+                        "bg-yellow-100 text-yellow-800"
+                      }>
+                        {dispute.status}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        dispute.priority === "High" ? "bg-red-100 text-red-800" :
+                        dispute.priority === "Medium" ? "bg-yellow-100 text-yellow-800" :
+                        "bg-green-100 text-green-800"
+                      }>
+                        {dispute.priority}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{dispute.assignedTo}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{dispute.createdDate}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{dispute.region}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Dispute Resolved", `Dispute ${dispute.id} has been resolved successfully`)}
+                        >
+                          <CheckIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <MessageSquareIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderChat = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Chat Management</h2>
+          <p className="text-[#64748B]">Monitor and manage platform chat sessions and support</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Chat Session Ended", "Chat session has been ended successfully")}
+        >
+          <MessageSquareIcon className="w-4 h-4 mr-2" />
+          Monitor Chats
+        </Button>
+      </div>
+
+      {/* Chat Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <MessageSquareIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Active Chats</p>
+                <p className="text-2xl font-bold text-[#1E293B]">156</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <HeadphonesIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Available Agents</p>
+                <p className="text-2xl font-bold text-[#1E293B]">23</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <ClockIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Avg Response Time</p>
+                <p className="text-2xl font-bold text-[#1E293B]">2.3min</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                <StarIcon className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Satisfaction Rate</p>
+                <p className="text-2xl font-bold text-[#1E293B]">4.8/5</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Chat Sessions Table */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Active Chat Sessions</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CHAT ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">USER ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">AGENT ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">START TIME</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">DURATION</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">MESSAGES</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REGION</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {chatSessions.map((session) => (
+                  <tr key={session.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{session.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{session.userId}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{session.agentId}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        session.status === "Active" ? "bg-green-100 text-green-800" :
+                        session.status === "Ended" ? "bg-gray-100 text-gray-800" :
+                        "bg-yellow-100 text-yellow-800"
+                      }>
+                        {session.status}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{session.startTime}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{session.duration}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{session.messages}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{session.region}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Chat Monitored", `Chat session ${session.id} is being monitored`)}
+                        >
+                          <MessageSquareIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <StopIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderEmail = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Email & Template Management</h2>
+          <p className="text-[#64748B]">Manage email templates and communication workflows</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Template Created", "New email template has been created successfully")}
+        >
+          <PlusIcon className="w-4 h-4 mr-2" />
+          Create Template
+        </Button>
+      </div>
+
+      {/* Email Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <MailIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Templates</p>
+                <p className="text-2xl font-bold text-[#1E293B]">45</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <SendIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Emails Sent Today</p>
+                <p className="text-2xl font-bold text-[#1E293B]">125K</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <TrendingUpIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Open Rate</p>
+                <p className="text-2xl font-bold text-[#1E293B]">78.5%</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                <CheckCircleIcon className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Delivery Rate</p>
+                <p className="text-2xl font-bold text-[#1E293B]">99.2%</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Email Templates Table */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Email Templates</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TEMPLATE ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">NAME</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TYPE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">USAGE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">LAST USED</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">OPEN RATE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {emailTemplates.map((template) => (
+                  <tr key={template.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{template.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{template.name}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{template.type}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{template.usage.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{template.lastUsed}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        template.status === "Active" ? "bg-green-100 text-green-800" :
+                        template.status === "Draft" ? "bg-yellow-100 text-yellow-800" :
+                        "bg-gray-100 text-gray-800"
+                      }>
+                        {template.status}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{template.openRate}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <EditIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Template Updated", `Email template ${template.name} has been updated successfully`)}
+                        >
+                          <SendIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderNotifications = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Notification Management</h2>
+          <p className="text-[#64748B]">Manage platform-wide notifications and alerts</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Notification Sent", "Platform notification has been sent successfully to all users")}
+        >
+          <BellIcon className="w-4 h-4 mr-2" />
+          Send Notification
+        </Button>
+      </div>
+
+      {/* Notification Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <BellIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Notifications</p>
+                <p className="text-2xl font-bold text-[#1E293B]">2.8M</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <CheckCircleIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Delivered</p>
+                <p className="text-2xl font-bold text-[#1E293B]">2.7M</p>
+                <p className="text-sm text-green-600">96.4% delivery rate</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <EyeIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Opened</p>
+                <p className="text-2xl font-bold text-[#1E293B]">1.9M</p>
+                <p className="text-sm text-purple-600">70.4% open rate</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                <SendIcon className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Sent Today</p>
+                <p className="text-2xl font-bold text-[#1E293B]">45K</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Notifications Table */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Recent Notifications</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">NOTIFICATION ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TITLE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TYPE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">RECIPIENTS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">SENT</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">DELIVERED</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">OPENED</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {notifications.map((notification) => (
+                  <tr key={notification.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{notification.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{notification.title}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{notification.type}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{notification.recipients.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{notification.sent.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{notification.delivered.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{notification.opened.toLocaleString()}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        notification.status === "Sent" ? "bg-green-100 text-green-800" :
+                        notification.status === "Draft" ? "bg-yellow-100 text-yellow-800" :
+                        "bg-blue-100 text-blue-800"
+                      }>
+                        {notification.status}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <EditIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Notification Sent", `Notification ${notification.title} has been sent successfully`)}
+                        >
+                          <SendIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderTickets = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Ticketing System Management</h2>
+          <p className="text-[#64748B]">Manage customer support tickets and SLA tracking</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Ticket Resolved", "Support ticket has been resolved successfully")}
+        >
+          <TicketIcon className="w-4 h-4 mr-2" />
+          Resolve Ticket
+        </Button>
+      </div>
+
+      {/* Ticket Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                <TicketIcon className="w-6 h-6 text-yellow-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Open Tickets</p>
+                <p className="text-2xl font-bold text-[#1E293B]">67</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <CheckCircleIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Resolved Today</p>
+                <p className="text-2xl font-bold text-[#1E293B]">89</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <ClockIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Avg Response Time</p>
+                <p className="text-2xl font-bold text-[#1E293B]">2.4h</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <StarIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Satisfaction</p>
+                <p className="text-2xl font-bold text-[#1E293B]">4.8/5</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Tickets Table */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-[#1E293B]">Support Tickets</h3>
+            <div className="flex gap-3">
+              <div className="relative">
+                <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
+                <Input
+                  placeholder="Search tickets..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 w-64"
+                />
+              </div>
+              <select 
+                className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                value={selectedFilter}
+                onChange={(e) => setSelectedFilter(e.target.value)}
+              >
+                <option value="all">All Status</option>
+                <option value="open">Open</option>
+                <option value="in-progress">In Progress</option>
+                <option value="resolved">Resolved</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TICKET ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">SUBJECT</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CATEGORY</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">PRIORITY</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ASSIGNED TO</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CREATED BY</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CREATED DATE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REGION</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tickets.map((ticket) => (
+                  <tr key={ticket.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{ticket.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{ticket.subject}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{ticket.category}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        ticket.priority === "High" ? "bg-red-100 text-red-800" :
+                        ticket.priority === "Medium" ? "bg-yellow-100 text-yellow-800" :
+                        "bg-green-100 text-green-800"
+                      }>
+                        {ticket.priority}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        ticket.status === "Resolved" ? "bg-green-100 text-green-800" :
+                        ticket.status === "In Progress" ? "bg-blue-100 text-blue-800" :
+                        "bg-yellow-100 text-yellow-800"
+                      }>
+                        {ticket.status}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{ticket.assignedTo}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{ticket.createdBy}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{ticket.createdDate}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{ticket.region}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Ticket Resolved", `Ticket ${ticket.id} has been resolved successfully`)}
+                        >
+                          <CheckIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <MessageSquareIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderWhiteLabel = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">White Labelling & Platform Customization</h2>
+          <p className="text-[#64748B]">Manage platform branding and customization for clients</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("White Label Created", "New white label configuration has been created successfully")}
+        >
+          <PaletteIcon className="w-4 h-4 mr-2" />
+          Create White Label
+        </Button>
+      </div>
+
+      {/* White Label Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <PaletteIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Active Brands</p>
+                <p className="text-2xl font-bold text-[#1E293B]">12</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <UsersIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Users</p>
+                <p className="text-2xl font-bold text-[#1E293B]">750K</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <GlobeIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Custom Domains</p>
+                <p className="text-2xl font-bold text-[#1E293B]">8</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                <SettingsIcon className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Configurations</p>
+                <p className="text-2xl font-bold text-[#1E293B]">24</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* White Label Configurations Table */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">White Label Configurations</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CONFIG ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CLIENT NAME</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">DOMAIN</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">PRIMARY COLOR</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">SECONDARY COLOR</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">USERS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {whiteLabels.map((label) => (
+                  <tr key={label.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{label.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{label.clientName}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{label.domain}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex items-center gap-2">
+                        <div 
+                          className="w-4 h-4 rounded" 
+                          style={{ backgroundColor: label.primaryColor }}
+                        ></div>
+                        <span className="text-sm text-[#64748B]">{label.primaryColor}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-4">
+                      <div className="flex items-center gap-2">
+                        <div 
+                          className="w-4 h-4 rounded" 
+                          style={{ backgroundColor: label.secondaryColor }}
+                        ></div>
+                        <span className="text-sm text-[#64748B]">{label.secondaryColor}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        label.status === "Active" ? "bg-green-100 text-green-800" :
+                        label.status === "Setup" ? "bg-yellow-100 text-yellow-800" :
+                        "bg-gray-100 text-gray-800"
+                      }>
+                        {label.status}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{label.users.toLocaleString()}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <EditIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("White Label Updated", `${label.clientName} branding has been updated successfully`)}
+                        >
+                          <PaletteIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderReferrals = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Referrals Management System</h2>
+          <p className="text-[#64748B]">Manage referral campaigns and track performance</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Campaign Created", "New referral campaign has been created successfully")}
+        >
+          <GiftIcon className="w-4 h-4 mr-2" />
+          Create Campaign
+        </Button>
+      </div>
+
+      {/* Referral Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <GiftIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Referrals</p>
+                <p className="text-2xl font-bold text-[#1E293B]">24,811</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <TrendingUpIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Conversion Rate</p>
+                <p className="text-2xl font-bold text-[#1E293B]">73.2%</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <DollarSignIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Rewards Paid</p>
+                <p className="text-2xl font-bold text-[#1E293B]">₦26.2M</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                <BarChart3Icon className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">ROI</p>
+                <p className="text-2xl font-bold text-[#1E293B]">340%</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Referral Campaigns Table */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Referral Campaigns</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CAMPAIGN ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">NAME</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TOTAL REFERRALS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CONVERSIONS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CONVERSION RATE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REWARDS PAID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">END DATE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {referralCampaigns.map((campaign) => (
+                  <tr key={campaign.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{campaign.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{campaign.name}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{campaign.totalReferrals.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{campaign.conversions.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{campaign.conversionRate}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">₦{campaign.rewardsPaid.toLocaleString()}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        campaign.status === "Active" ? "bg-green-100 text-green-800" :
+                        campaign.status === "Ended" ? "bg-gray-100 text-gray-800" :
+                        "bg-yellow-100 text-yellow-800"
+                      }>
+                        {campaign.status}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{campaign.endDate}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <EditIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Campaign Updated", `${campaign.name} has been updated successfully`)}
+                        >
+                          <SettingsIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderRewards = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Reward Management System</h2>
+          <p className="text-[#64748B]">Manage loyalty programs and reward distribution</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Reward Program Created", "New reward program has been created successfully")}
+        >
+          <StarIcon className="w-4 h-4 mr-2" />
+          Create Program
+        </Button>
+      </div>
+
+      {/* Reward Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <StarIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Active Programs</p>
+                <p className="text-2xl font-bold text-[#1E293B]">12</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <UsersIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Participants</p>
+                <p className="text-2xl font-bold text-[#1E293B]">855K</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <DollarSignIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Rewards Paid</p>
+                <p className="text-2xl font-bold text-[#1E293B]">₦182M</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                <TrendingUpIcon className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Participation Rate</p>
+                <p className="text-2xl font-bold text-[#1E293B]">34%</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Reward Programs Table */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Reward Programs</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">PROGRAM ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">NAME</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TYPE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">PARTICIPANTS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TOTAL PAID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">PARTICIPATION RATE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REDEMPTION RATE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rewardPrograms.map((program) => (
+                  <tr key={program.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{program.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{program.name}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{program.type}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{program.participants.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">₦{program.totalPaid.toLocaleString()}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{program.participationRate}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{program.redemptionRate}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <EditIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Program Updated", `${program.name} has been updated successfully`)}
+                        >
+                          <SettingsIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderRatings = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Ratings Management System</h2>
+          <p className="text-[#64748B]">Monitor and moderate platform ratings and reviews</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Rating Moderated", "Rating has been reviewed and moderated successfully")}
+        >
+          <StarIcon className="w-4 h-4 mr-2" />
+          Moderate Ratings
+        </Button>
+      </div>
+
+      {/* Rating Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <StarIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Ratings</p>
+                <p className="text-2xl font-bold text-[#1E293B]">125,847</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <TrendingUpIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Average Rating</p>
+                <p className="text-2xl font-bold text-[#1E293B]">4.8/5</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <EyeIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Under Review</p>
+                <p className="text-2xl font-bold text-[#1E293B]">234</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                <CheckCircleIcon className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Published</p>
+                <p className="text-2xl font-bold text-[#1E293B]">125,613</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Ratings Table */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-[#1E293B]">Recent Ratings</h3>
+            <div className="flex gap-3">
+              <div className="relative">
+                <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
+                <Input
+                  placeholder="Search ratings..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 w-64"
+                />
+              </div>
+              <select 
+                className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                value={selectedFilter}
+                onChange={(e) => setSelectedFilter(e.target.value)}
+              >
+                <option value="all">All Status</option>
+                <option value="published">Published</option>
+                <option value="under-review">Under Review</option>
+                <option value="rejected">Rejected</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">RATING ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">USER ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">RATING</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">COMMENT</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CATEGORY</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">DATE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REGION</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {ratings.map((rating) => (
+                  <tr key={rating.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{rating.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{rating.userId}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex items-center gap-1">
+                        {[...Array(5)].map((_, i) => (
+                          <StarIcon 
+                            key={i} 
+                            className={`w-4 h-4 ${i < rating.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} 
+                          />
+                        ))}
+                      </div>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B] max-w-xs truncate">{rating.comment}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{rating.category}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{rating.date}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        rating.status === "Published" ? "bg-green-100 text-green-800" :
+                        rating.status === "Under Review" ? "bg-yellow-100 text-yellow-800" :
+                        "bg-red-100 text-red-800"
+                      }>
+                        {rating.status}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{rating.region}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Rating Approved", `Rating ${rating.id} has been approved and published`)}
+                        >
+                          <CheckIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Rating Rejected", `Rating ${rating.id} has been rejected`)}
+                        >
+                          <XIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderDocuments = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Document Management</h2>
+          <p className="text-[#64748B]">Manage platform documents with version control and access permissions</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Document Verified", "Document has been verified and approved successfully")}
+        >
+          <FolderIcon className="w-4 h-4 mr-2" />
+          Verify Document
+        </Button>
+      </div>
+
+      {/* Document Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <FolderIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Documents</p>
+                <p className="text-2xl font-bold text-[#1E293B]">45,623</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <CheckCircleIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Verified</p>
+                <p className="text-2xl font-bold text-[#1E293B]">42,156</p>
+                <p className="text-sm text-green-600">92.4% verified</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                <ClockIcon className="w-6 h-6 text-yellow-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Under Review</p>
+                <p className="text-2xl font-bold text-[#1E293B]">2,345</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <HardDriveIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Storage Used</p>
+                <p className="text-2xl font-bold text-[#1E293B]">1.2TB</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Documents Table */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-[#1E293B]">Document Library</h3>
+            <div className="flex gap-3">
+              <div className="relative">
+                <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
+                <Input
+                  placeholder="Search documents..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 w-64"
+                />
+              </div>
+              <select 
+                className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                value={selectedFilter}
+                onChange={(e) => setSelectedFilter(e.target.value)}
+              >
+                <option value="all">All Types</option>
+                <option value="kyc">KYC</option>
+                <option value="kyb">KYB</option>
+                <option value="financial">Financial</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">DOCUMENT ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">NAME</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TYPE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">SIZE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">UPLOAD DATE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">UPLOADED BY</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REGION</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {documents.map((document) => (
+                  <tr key={document.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{document.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{document.name}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{document.type}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{document.size}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{document.uploadDate}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        document.status === "Verified" ? "bg-green-100 text-green-800" :
+                        document.status === "Approved" ? "bg-green-100 text-green-800" :
+                        document.status === "Under Review" ? "bg-yellow-100 text-yellow-800" :
+                        "bg-red-100 text-red-800"
+                      }>
+                        {document.status}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{document.uploadedBy}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{document.region}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <DownloadIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Document Verified", `Document ${document.name} has been verified successfully`)}
+                        >
+                          <CheckIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderSecurity = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Security & Settings Center</h2>
+          <p className="text-[#64748B]">Monitor security events, audit trails, and system logs</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Security Policy Updated", "Security policy has been updated successfully")}
+        >
+          <LockIcon className="w-4 h-4 mr-2" />
+          Update Security
+        </Button>
+      </div>
+
+      {/* Security Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <ShieldCheckIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Security Score</p>
+                <p className="text-2xl font-bold text-[#1E293B]">98.5%</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                <AlertTriangleIcon className="w-6 h-6 text-red-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Security Alerts</p>
+                <p className="text-2xl font-bold text-[#1E293B]">12</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <UsersIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Active Sessions</p>
+                <p className="text-2xl font-bold text-[#1E293B]">1,247</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <LockIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Failed Logins</p>
+                <p className="text-2xl font-bold text-[#1E293B]">89</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Security Events Table */}
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-[#1E293B]">Security Events</h3>
+            <div className="flex gap-3">
+              <div className="relative">
+                <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
+                <Input
+                  placeholder="Search security events..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 w-64"
+                />
+              </div>
+              <select 
+                className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                value={selectedFilter}
+                onChange={(e) => setSelectedFilter(e.target.value)}
+              >
+                <option value="all">All Severity</option>
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">EVENT ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TYPE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">DESCRIPTION</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">SEVERITY</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TIMESTAMP</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">USER</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">IP ADDRESS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REGION</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {securityEvents.map((event) => (
+                  <tr key={event.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{event.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{event.type}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B] max-w-xs truncate">{event.description}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        event.severity === "High" ? "bg-red-100 text-red-800" :
+                        event.severity === "Medium" ? "bg-yellow-100 text-yellow-800" :
+                        "bg-green-100 text-green-800"
+                      }>
+                        {event.severity}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{event.timestamp}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{event.user}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{event.ipAddress}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{event.region}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Event Investigated", `Security event ${event.id} has been investigated`)}
+                        >
+                          <SearchIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <LockIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderContent = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Website Content Management System</h2>
+          <p className="text-[#64748B]">Manage website content, pages, and media files</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Content Published", "Website content has been published successfully")}
+        >
+          <PlusIcon className="w-4 h-4 mr-2" />
+          Create Content
+        </Button>
+      </div>
+
+      {/* Content Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <MonitorIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Pages</p>
+                <p className="text-2xl font-bold text-[#1E293B]">247</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <CheckCircleIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Published</p>
+                <p className="text-2xl font-bold text-[#1E293B]">234</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                <EditIcon className="w-6 h-6 text-yellow-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Drafts</p>
+                <p className="text-2xl font-bold text-[#1E293B]">13</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <FolderIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Media Files</p>
+                <p className="text-2xl font-bold text-[#1E293B]">1,456</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Content Pages Table */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Website Content</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CONTENT ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TITLE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">TYPE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">LAST MODIFIED</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">AUTHOR</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">VIEWS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {contentPages.map((page) => (
+                  <tr key={page.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{page.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{page.title}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{page.type}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        page.status === "Published" ? "bg-green-100 text-green-800" :
+                        page.status === "Draft" ? "bg-yellow-100 text-yellow-800" :
+                        "bg-gray-100 text-gray-800"
+                      }>
+                        {page.status}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{page.lastModified}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{page.author}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{page.views.toLocaleString()}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <EditIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Content Published", `${page.title} has been published successfully`)}
+                        >
+                          <CheckIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderDowntime = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">Downtime Tracker System</h2>
+          <p className="text-[#64748B]">Monitor system uptime, incidents, and service availability</p>
+        </div>
+        <Button 
+          className="bg-[#5B52FF] text-white"
+          onClick={() => showSuccess("Incident Resolved", "System incident has been resolved successfully")}
+        >
+          <ActivityIcon className="w-4 h-4 mr-2" />
+          Report Incident
+        </Button>
+      </div>
+
+      {/* Uptime Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <ActivityIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Current Uptime</p>
+                <p className="text-2xl font-bold text-[#1E293B]">99.97%</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <ClockIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Avg Response Time</p>
+                <p className="text-2xl font-bold text-[#1E293B]">145ms</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                <WifiOffIcon className="w-6 h-6 text-red-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Incidents This Month</p>
+                <p className="text-2xl font-bold text-[#1E293B]">3</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                <RefreshCwIcon className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">MTTR</p>
+                <p className="text-2xl font-bold text-[#1E293B]">12min</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Downtime Incidents Table */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Recent Incidents</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">INCIDENT ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">SERVICE</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">START TIME</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">END TIME</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">DURATION</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">SEVERITY</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">AFFECTED REGIONS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {downtimeIncidents.map((incident) => (
+                  <tr key={incident.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4 text-sm font-medium text-[#1E293B]">{incident.id}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{incident.service}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{incident.startTime}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{incident.endTime}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{incident.duration}</td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        incident.severity === "Critical" ? "bg-red-100 text-red-800" :
+                        incident.severity === "High" ? "bg-orange-100 text-orange-800" :
+                        incident.severity === "Medium" ? "bg-yellow-100 text-yellow-800" :
+                        "bg-green-100 text-green-800"
+                      }>
+                        {incident.severity}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4">
+                      <Badge className={
+                        incident.status === "Resolved" ? "bg-green-100 text-green-800" :
+                        incident.status === "Investigating" ? "bg-yellow-100 text-yellow-800" :
+                        "bg-red-100 text-red-800"
+                      }>
+                        {incident.status}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">
+                      {Array.isArray(incident.affectedRegions) ? incident.affectedRegions.join(", ") : incident.affectedRegions}
+                    </td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="sm">
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Incident Resolved", `Incident ${incident.id} has been resolved successfully`)}
+                        >
+                          <CheckIcon className="w-4 h-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm">
+                          <AlertTriangleIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderCurrentPage = () => {
+    switch (currentPage) {
+      case "dashboard": return renderDashboard();
+      case "admin-users": return renderAdminUsers();
+      case "rbac": return renderRBAC();
+      case "users": return renderUsers();
+      case "kyc": return renderKYC();
+      case "kyb": return renderKYB();
+      case "regional": return renderRegional();
+      case "bulk-data": return renderBulkData();
+      case "approval-workflow": return renderApprovalWorkflow();
+      case "transactions": return renderTransactions();
+      case "cards": return renderCards();
+      case "pos": return renderPOS();
+      case "third-party": return renderThirdParty();
+      case "api": return renderAPI();
+      case "developer": return renderDeveloper();
+      case "marketplace": return renderMarketplace();
+      case "database": return renderDatabase();
+      case "system-health": return renderSystemHealth();
+      case "subscription": return renderSubscription();
+      case "system-logs": return renderSystemLogs();
+      case "profile": return renderProfile();
+      case "wallet": return renderWallet();
+      case "escrow": return renderEscrow();
+      case "background-check": return renderBackgroundCheck();
+      case "reports": return renderReports();
+      case "disputes": return renderDisputes();
+      case "chat": return renderChat();
+      case "email": return renderEmail();
+      case "notifications": return renderNotifications();
+      case "tickets": return renderTickets();
+      case "white-label": return renderWhiteLabel();
+      case "referrals": return renderReferrals();
+      case "rewards": return renderRewards();
+      case "ratings": return renderRatings();
+      case "documents": return renderDocuments();
+      case "security": return renderSecurity();
+      case "content": return renderContent();
+      case "downtime": return renderDowntime();
+      default: return renderDashboard();
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Add Terminal Modal */}
+      {showAddTerminalModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <Card className="w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-[#1E293B]">Add New POS Terminal</h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowAddTerminalModal(false)}>
+                  <XIcon className="w-4 h-4" />
+                </Button>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Terminal ID *</label>
+                  <Input
+                    placeholder="e.g., TRM12350"
+                    value={terminalFormData.terminalId}
+                    onChange={(e) => setTerminalFormData({...terminalFormData, terminalId: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Serial Number *</label>
+                  <Input
+                    placeholder="e.g., SN001239"
+                    value={terminalFormData.serialNumber}
+                    onChange={(e) => setTerminalFormData({...terminalFormData, serialNumber: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Merchant Name *</label>
+                  <Input
+                    placeholder="e.g., Main Store"
+                    value={terminalFormData.merchantName}
+                    onChange={(e) => setTerminalFormData({...terminalFormData, merchantName: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Model *</label>
+                  <select 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    value={terminalFormData.model}
+                    onChange={(e) => setTerminalFormData({...terminalFormData, model: e.target.value})}
+                  >
+                    <option value="">Select Model</option>
+                    <option value="POS-X1">POS-X1</option>
+                    <option value="POS-X2">POS-X2</option>
+                    <option value="POS-X3">POS-X3</option>
+                    <option value="POS-Pro">POS-Pro</option>
+                  </select>
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Location *</label>
+                  <Input
+                    placeholder="e.g., Lagos, Nigeria"
+                    value={terminalFormData.location}
+                    onChange={(e) => setTerminalFormData({...terminalFormData, location: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Region *</label>
+                  <select 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    value={terminalFormData.region}
+                    onChange={(e) => setTerminalFormData({...terminalFormData, region: e.target.value})}
+                  >
+                    <option value="">Select Region</option>
+                    <option value="Nigeria">Nigeria</option>
+                    <option value="Ghana">Ghana</option>
+                    <option value="Kenya">Kenya</option>
+                    <option value="South Africa">South Africa</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Daily Limit</label>
+                  <Input
+                    placeholder="e.g., 1000000"
+                    value={terminalFormData.dailyLimit}
+                    onChange={(e) => setTerminalFormData({...terminalFormData, dailyLimit: e.target.value})}
+                  />
+                </div>
+              </div>
+              
+              <div className="flex gap-4 mt-6">
+                <Button 
+                  variant="outline" 
+                  className="flex-1"
+                  onClick={() => setShowAddTerminalModal(false)}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  className="flex-1 bg-[#5B52FF] text-white"
+                  onClick={() => {
+                    setShowAddTerminalModal(false);
+                    showSuccess("Terminal Added", "New POS terminal has been added to the system successfully");
+                    setTerminalFormData({
+                      terminalId: "",
+                      merchantName: "",
+                      location: "",
+                      region: "",
+                      serialNumber: "",
+                      model: "",
+                      dailyLimit: "",
+                      monthlyLimit: ""
+                    });
+                  }}
+                  disabled={!terminalFormData.terminalId || !terminalFormData.merchantName || !terminalFormData.location || !terminalFormData.region}
+                >
+                  Add Terminal
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Assign Terminal Modal */}
+      {showAssignTerminalModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <Card className="w-full max-w-lg mx-4">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-[#1E293B]">Assign POS Terminal</h3>
+                <Button variant="ghost" size="sm" onClick={() => setShowAssignTerminalModal(false)}>
+                  <XIcon className="w-4 h-4" />
+                </Button>
+              </div>
+              
+              {selectedTerminal && (
+                <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+                  <h4 className="font-semibold text-[#1E293B] mb-2">Terminal Details</h4>
+                  <p className="text-sm text-[#64748B]">Terminal ID: {selectedTerminal.terminalId}</p>
+                  <p className="text-sm text-[#64748B]">Location: {selectedTerminal.location}</p>
+                  <p className="text-sm text-[#64748B]">Model: {selectedTerminal.model}</p>
+                </div>
+              )}
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Select User to Assign</label>
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                    <option value="">Choose a business user...</option>
+                    {users.filter(u => u.type === "Business").map((user) => (
+                      <option key={user.id} value={user.id}>
+                        {user.firstName} {user.lastName} - {user.email}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Assignment Notes</label>
+                  <textarea 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg h-20 resize-none"
+                    placeholder="Add any notes about this assignment..."
+                  />
+                </div>
+              </div>
+              
+              <div className="flex gap-4 mt-6">
+                <Button 
+                  variant="outline" 
+                  className="flex-1"
+                  onClick={() => {
+                    setShowAssignTerminalModal(false);
+                    setSelectedTerminal(null);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  className="flex-1 bg-[#5B52FF] text-white"
+                  onClick={() => {
+                    setShowAssignTerminalModal(false);
+                    setSelectedTerminal(null);
+                    showSuccess("Terminal Assigned", "POS terminal has been assigned to user successfully");
+                  }}
+                >
+                  Assign Terminal
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* User Details Modal */}
+      {showUserDetailsModal && selectedUser && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <Card className="w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <Avatar className="w-12 h-12">
+                    <AvatarFallback className="bg-[#5B52FF] text-white">
+                      {selectedUser.firstName.charAt(0)}{selectedUser.lastName.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <h3 className="text-xl font-bold text-[#1E293B]">
+                      {selectedUser.firstName} {selectedUser.middleName} {selectedUser.lastName}
+                    </h3>
+                    <p className="text-[#64748B]">{selectedUser.type} User</p>
+                  </div>
+                </div>
+                <Button variant="ghost" size="sm" onClick={() => setShowUserDetailsModal(false)}>
+                  <XIcon className="w-4 h-4" />
+                </Button>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">First Name</label>
+                  <Input
+                    value={userFormData.firstName}
+                    onChange={(e) => setUserFormData({...userFormData, firstName: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Middle Name</label>
+                  <Input
+                    value={userFormData.middleName}
+                    onChange={(e) => setUserFormData({...userFormData, middleName: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Last Name</label>
+                  <Input
+                    value={userFormData.lastName}
+                    onChange={(e) => setUserFormData({...userFormData, lastName: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Email Address</label>
+                  <Input
+                    value={userFormData.email}
+                    onChange={(e) => setUserFormData({...userFormData, email: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Phone Number</label>
+                  <Input
+                    value={userFormData.phone}
+                    onChange={(e) => setUserFormData({...userFormData, phone: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">User Type</label>
+                  <select 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    value={userFormData.userType}
+                    onChange={(e) => setUserFormData({...userFormData, userType: e.target.value})}
+                  >
+                    <option value="Individual">Individual</option>
+                    <option value="Business">Business</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Support">Support</option>
+                    <option value="Developer">Developer</option>
+                    <option value="SuperAdmin">SuperAdmin</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Region</label>
+                  <select 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    value={userFormData.region}
+                    onChange={(e) => setUserFormData({...userFormData, region: e.target.value})}
+                  >
+                    <option value="Nigeria">Nigeria</option>
+                    <option value="Ghana">Ghana</option>
+                    <option value="Kenya">Kenya</option>
+                    <option value="South Africa">South Africa</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Account Status</label>
+                  <select 
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    value={userFormData.status}
+                    onChange={(e) => setUserFormData({...userFormData, status: e.target.value})}
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Frozen">Frozen</option>
+                    <option value="Deactivated">Deactivated</option>
+                  </select>
+                </div>
+              </div>
+              
+              {/* User Statistics */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+                <div className="text-center">
+                  <p className="text-sm text-[#64748B]">Account Balance</p>
+                  <p className="text-lg font-bold text-[#1E293B]">
+                    {selectedUser.type === "Individual" || selectedUser.type === "Business" 
+                      ? `₦${selectedUser.balance.toLocaleString()}` 
+                      : 'N/A'
+                    }
+                  </p>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm text-[#64748B]">KYC/KYB Status</p>
+                  <Badge className="bg-green-100 text-green-800">
+                    {selectedUser.kycStatus || selectedUser.kybStatus}
+                  </Badge>
+                </div>
+                <div className="text-center">
+                  <p className="text-sm text-[#64748B]">Last Login</p>
+                  <p className="text-sm text-[#64748B]">2 hours ago</p>
+                </div>
+              </div>
+              
+              <div className="flex gap-4">
+                <Button 
+                  variant="outline" 
+                  className="flex-1"
+                  onClick={() => setShowUserDetailsModal(false)}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  className="flex-1 bg-[#5B52FF] text-white"
+                  onClick={() => {
+                    setShowUserDetailsModal(false);
+                    setSelectedUser(null);
+                    showSuccess("User Updated", "User information has been updated successfully");
+                  }}
+                >
+                  Save Changes
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Success Modal with Blur Background */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9998]">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 text-center shadow-2xl animate-in zoom-in-95">
+            <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+              <CheckCircleIcon className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-[#1E293B] mb-2">{successMessage.title}</h3>
+            <p className="text-[#64748B] mb-6">{successMessage.message}</p>
+            <Button 
+              onClick={() => setShowSuccessModal(false)}
+              className="bg-[#5B52FF] text-white"
+            >
+              Continue
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Desktop Layout */}
+      <div className="hidden lg:flex">
+        {/* Sidebar */}
+        <div className="w-64 bg-white border-r border-gray-200 flex flex-col h-screen fixed left-0 top-0">
+          <div className="p-6 border-b border-gray-200">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                <CrownIcon className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h1 className="font-bold text-[#1E293B]">Super Admin</h1>
+                <p className="text-xs text-[#64748B]">Platform Control</p>
+              </div>
+            </div>
+          </div>
+
+          <nav className="flex-1 p-4 overflow-y-auto">
+            {/* Account Type Switcher */}
+            <div className="mb-4">
+              <AccountTypeSwitcher variant="sidebar" />
+            </div>
+
+            <div className="space-y-1">
+              {superAdminNavItems.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => setCurrentPage(item.id)}
+                  className={`px-3 py-2 rounded-lg flex items-center gap-3 cursor-pointer transition-colors ${
+                    currentPage === item.id
+                      ? "bg-[#5B52FF] text-white"
+                      : "text-[#64748B] hover:bg-gray-50"
+                  }`}
+                >
+                  {item.icon}
+                  <div className="flex-1">
+                    <span className="font-medium text-sm">{item.name}</span>
+                    <p className="text-xs opacity-70">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </nav>
+
+          <div className="p-4">
+            <Card className="bg-gradient-to-br from-purple-500 to-pink-500 text-white">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <CrownIcon className="w-8 h-8" />
+                  <div>
+                    <p className="font-semibold">Super Admin</p>
+                    <p className="text-sm opacity-80">Full Platform Access</p>
+                  </div>
+                </div>
+                <p className="text-sm opacity-90 mb-3">
+                  You have complete control over the SureBanker platform
+                </p>
+                <Button className="w-full bg-white/20 hover:bg-white/30 text-white border-white/30">
+                  Platform Settings
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col ml-64">
+          <header className="bg-white border-b border-gray-200 px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div>
+                  <h1 className="text-xl font-semibold text-[#1E293B]">
+                    {superAdminNavItems.find(item => item.id === currentPage)?.name || "Super Admin Dashboard"}
+                  </h1>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <AccountTypeSwitcher variant="header" />
+                
+                <Button variant="ghost" size="sm" className="p-2">
+                  <SearchIcon className="w-5 h-5 text-[#64748B]" />
+                </Button>
+                
+                <div className="relative">
+                  <Button variant="ghost" size="sm" className="p-2">
+                    <BellIcon className="w-5 h-5 text-[#64748B]" onClick={() => navigate("/notifications")} />
+                  </Button>
+                  <Badge className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs flex items-center justify-center p-0 animate-pulse">
+                    {posNotifications.filter(n => !n.isRead).length + 5}
+                  </Badge>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <ProfileDropdown
+                    userName="Super Admin"
+                    userRole="Platform Controller"
+                    avatar="SA"
+                    profileRoute="/super-admin-profile"
+                    accountType="super-admin"
+                  />
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <main className="flex-1 p-6">
+            {renderCurrentPage()}
+          </main>
+        </div>
+      </div>
+
+      {/* Mobile Layout */}
+      <div className="lg:hidden">
+        <header className="bg-white px-4 py-4 flex items-center justify-between border-b">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+              <CrownIcon className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h1 className="text-lg font-semibold text-[#1E293B]">Super Admin</h1>
+              <p className="text-xs text-[#64748B]">Platform Control</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <BellIcon className="w-6 h-6 text-[#64748B]" />
+              <Badge className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs flex items-center justify-center p-0">
+                5
+              </Badge>
+            </div>
+          </div>
+        </header>
+
+        <main className="p-4 pb-20">
+          {/* Mobile Navigation Grid */}
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            {superAdminNavItems.slice(0, 8).map((item) => (
+              <Card 
+                key={item.id} 
+                className="cursor-pointer hover:shadow-md transition-shadow"
+                onClick={() => setCurrentPage(item.id)}
+              >
+                <CardContent className="p-4 text-center">
+                  <div className="w-10 h-10 bg-[#5B52FF] rounded-lg flex items-center justify-center mx-auto mb-2 text-white">
+                    {item.icon}
+                  </div>
+                  <p className="text-sm font-medium text-[#1E293B]">{item.name}</p>
+                  <p className="text-xs text-[#64748B]">{item.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Current Page Content */}
+          {renderCurrentPage()}
+        </main>
+
+        {/* Mobile Bottom Navigation */}
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-2">
+          <div className="flex items-center justify-around">
+            {[
+              { name: "Dashboard", icon: <HomeIcon className="w-6 h-6" />, page: "dashboard" },
+              { name: "Users", icon: <UsersIcon className="w-6 h-6" />, page: "users" },
+              { name: "Analytics", icon: <BarChart3Icon className="w-6 h-6" />, page: "system-health" },
+              { name: "Settings", icon: <SettingsIcon className="w-6 h-6" />, page: "profile" }
+            ].map((item, index) => (
+              <div 
+                key={index} 
+                className="flex flex-col items-center py-2 cursor-pointer"
+                onClick={() => setCurrentPage(item.page)}
+              >
+                <div className={`${currentPage === item.page ? 'text-[#5B52FF]' : 'text-gray-400'}`}>
+                  {item.icon}
+                </div>
+                <span className={`text-xs mt-1 ${currentPage === item.page ? 'text-[#5B52FF] font-medium' : 'text-gray-400'}`}>
+                  {item.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -3592,6 +3592,262 @@ export const SuperAdminDashboard = (): JSX.Element => {
     </div>
   );
 
+  // Add Terminal Modal
+  const AddTerminalModal = () => (
+    showAddTerminalModal && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="bg-white rounded-lg p-8 max-w-2xl w-full mx-4">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-semibold text-[#1E293B]">Add New POS Terminal</h3>
+            <Button variant="ghost" size="sm" onClick={() => setShowAddTerminalModal(false)}>
+              <XIcon className="w-4 h-4" />
+            </Button>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div>
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">Terminal ID</label>
+              <Input
+                placeholder="Enter terminal ID"
+                value={terminalFormData.terminalId}
+                onChange={(e) => setTerminalFormData({...terminalFormData, terminalId: e.target.value})}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">Serial Number</label>
+              <Input
+                placeholder="Enter serial number"
+                value={terminalFormData.serialNumber}
+                onChange={(e) => setTerminalFormData({...terminalFormData, serialNumber: e.target.value})}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">Model</label>
+              <select 
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                value={terminalFormData.model}
+                onChange={(e) => setTerminalFormData({...terminalFormData, model: e.target.value})}
+              >
+                <option value="">Select model</option>
+                <option value="POS-X1">POS-X1</option>
+                <option value="POS-X2">POS-X2</option>
+                <option value="POS-X3">POS-X3</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">Region</label>
+              <select 
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                value={terminalFormData.region}
+                onChange={(e) => setTerminalFormData({...terminalFormData, region: e.target.value})}
+              >
+                <option value="">Select region</option>
+                <option value="Nigeria">Nigeria</option>
+                <option value="Ghana">Ghana</option>
+                <option value="Kenya">Kenya</option>
+              </select>
+            </div>
+            <div className="col-span-2">
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">Location</label>
+              <Input
+                placeholder="Enter terminal location"
+                value={terminalFormData.location}
+                onChange={(e) => setTerminalFormData({...terminalFormData, location: e.target.value})}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">Daily Limit</label>
+              <Input
+                placeholder="Enter daily limit"
+                value={terminalFormData.dailyLimit}
+                onChange={(e) => setTerminalFormData({...terminalFormData, dailyLimit: e.target.value})}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">Monthly Limit</label>
+              <Input
+                placeholder="Enter monthly limit"
+                value={terminalFormData.monthlyLimit}
+                onChange={(e) => setTerminalFormData({...terminalFormData, monthlyLimit: e.target.value})}
+              />
+            </div>
+          </div>
+          
+          <div className="flex gap-4">
+            <Button 
+              variant="outline" 
+              className="flex-1"
+              onClick={() => setShowAddTerminalModal(false)}
+            >
+              Cancel
+            </Button>
+            <Button 
+              className="flex-1 bg-[#5B52FF] text-white"
+              onClick={() => {
+                setShowAddTerminalModal(false);
+                showSuccess("Terminal Added", "New POS terminal has been added to the system successfully");
+              }}
+            >
+              Add Terminal
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
+  );
+
+  // Assign Terminal Modal
+  const AssignTerminalModal = () => (
+    showAssignTerminalModal && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="bg-white rounded-lg p-8 max-w-lg w-full mx-4">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-semibold text-[#1E293B]">Assign Terminal to User</h3>
+            <Button variant="ghost" size="sm" onClick={() => setShowAssignTerminalModal(false)}>
+              <XIcon className="w-4 h-4" />
+            </Button>
+          </div>
+          
+          <div className="space-y-4 mb-6">
+            <div>
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">Select Terminal</label>
+              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <option value="">Choose unassigned terminal</option>
+                {posTerminals.filter(t => !t.assignedUser).map((terminal) => (
+                  <option key={terminal.id} value={terminal.id}>
+                    {terminal.terminalId} - {terminal.location}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">Select Business User</label>
+              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg">
+                <option value="">Choose business user</option>
+                {users.filter(u => u.type === "Business").map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.name} - {user.region}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">Assignment Notes</label>
+              <textarea 
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg h-20"
+                placeholder="Enter assignment notes..."
+              />
+            </div>
+          </div>
+          
+          <div className="flex gap-4">
+            <Button 
+              variant="outline" 
+              className="flex-1"
+              onClick={() => setShowAssignTerminalModal(false)}
+            >
+              Cancel
+            </Button>
+            <Button 
+              className="flex-1 bg-[#5B52FF] text-white"
+              onClick={() => {
+                setShowAssignTerminalModal(false);
+                showSuccess("Terminal Assigned", "POS terminal has been assigned to business user successfully");
+              }}
+            >
+              Assign Terminal
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
+  );
+
+  // User Details Modal
+  const UserDetailsModal = () => (
+    showUserDetailsModal && selectedUser && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="bg-white rounded-lg p-8 max-w-2xl w-full mx-4">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-semibold text-[#1E293B]">User Details</h3>
+            <Button variant="ghost" size="sm" onClick={() => setShowUserDetailsModal(false)}>
+              <XIcon className="w-4 h-4" />
+            </Button>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div>
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">First Name</label>
+              <Input
+                value={selectedUser.firstName}
+                onChange={(e) => setSelectedUser({...selectedUser, firstName: e.target.value})}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">Middle Name</label>
+              <Input
+                value={selectedUser.middleName}
+                onChange={(e) => setSelectedUser({...selectedUser, middleName: e.target.value})}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">Last Name</label>
+              <Input
+                value={selectedUser.lastName}
+                onChange={(e) => setSelectedUser({...selectedUser, lastName: e.target.value})}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">Email</label>
+              <Input
+                value={selectedUser.email}
+                onChange={(e) => setSelectedUser({...selectedUser, email: e.target.value})}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">Phone</label>
+              <Input
+                value={selectedUser.phone}
+                onChange={(e) => setSelectedUser({...selectedUser, phone: e.target.value})}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#1E293B] mb-2">Status</label>
+              <select 
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                value={selectedUser.status}
+                onChange={(e) => setSelectedUser({...selectedUser, status: e.target.value})}
+              >
+                <option value="Active">Active</option>
+                <option value="Frozen">Frozen</option>
+                <option value="Deactivated">Deactivated</option>
+              </select>
+            </div>
+          </div>
+          
+          <div className="flex gap-4">
+            <Button 
+              variant="outline" 
+              className="flex-1"
+              onClick={() => setShowUserDetailsModal(false)}
+            >
+              Cancel
+            </Button>
+            <Button 
+              className="flex-1 bg-[#5B52FF] text-white"
+              onClick={() => {
+                setShowUserDetailsModal(false);
+                showSuccess("User Updated", "User information has been updated successfully");
+              }}
+            >
+              Save Changes
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
+  );
+
   // Render current page content
   const renderCurrentPage = () => {
     switch (currentPage) {
@@ -3659,6 +3915,15 @@ export const SuperAdminDashboard = (): JSX.Element => {
         </div>
       )}
 
+      {/* Add Terminal Modal */}
+      <AddTerminalModal />
+
+      {/* Assign Terminal Modal */}
+      <AssignTerminalModal />
+
+      {/* User Details Modal */}
+      <UserDetailsModal />
+
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
@@ -3672,7 +3937,13 @@ export const SuperAdminDashboard = (): JSX.Element => {
               <BellIcon className="w-5 h-5" />
               <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
             </Button>
-            <ProfileDropdown />
+            <ProfileDropdown 
+              userName="Sarah SuperAdmin"
+              userRole="Super Administrator"
+              avatar="SS"
+              profileRoute="/super-admin-profile"
+              accountType="superadmin"
+            />
           </div>
         </div>
       </header>

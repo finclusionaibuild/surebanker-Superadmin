@@ -174,12 +174,12 @@ export const SuperAdminDashboard = (): JSX.Element => {
   ];
 
   const users = [
-    { id: "1", firstName: "Carchy", middleName: "Chijioke", lastName: "Atinse", email: "carchy@email.com", phone: "+234 801 234 5678", type: "Individual", kycStatus: "Tier 2", region: "Nigeria", status: "Active", balance: 120000 },
-    { id: "2", firstName: "Tech", middleName: "", lastName: "Solutions Ltd", email: "admin@techsolutions.com", phone: "+233 201 234 5678", type: "Business", kybStatus: "Tier 3", region: "Ghana", status: "Active", balance: 2500000 },
-    { id: "3", firstName: "Alex", middleName: "James", lastName: "Developer", email: "alex@dev.com", phone: "+254 701 234 567", type: "Developer", kycStatus: "Tier 1", region: "Kenya", status: "Active", balance: 50000 },
-    { id: "4", firstName: "John", middleName: "Michael", lastName: "Admin", email: "john@surebanker.com", phone: "+234 802 345 6789", type: "Admin", kycStatus: "Verified", region: "Nigeria", status: "Active", balance: 0 },
-    { id: "5", firstName: "Sarah", middleName: "Jane", lastName: "Support", email: "sarah@surebanker.com", phone: "+233 202 345 678", type: "Support", kycStatus: "Verified", region: "Ghana", status: "Active", balance: 0 },
-    { id: "6", firstName: "Mike", middleName: "", lastName: "SuperAdmin", email: "mike@surebanker.com", phone: "+254 702 345 678", type: "SuperAdmin", kycStatus: "Verified", region: "Kenya", status: "Active", balance: 0 }
+    { id: "1", firstName: "Carchy", middleName: "Chijioke", lastName: "Atinse", name: "Carchy Chijioke Atinse", email: "carchy@email.com", phone: "+234 801 234 5678", type: "Individual", kycStatus: "Tier 2", region: "Nigeria", status: "Active", balance: 120000 },
+    { id: "2", firstName: "Tech", middleName: "", lastName: "Solutions Ltd", name: "Tech Solutions Ltd", email: "admin@techsolutions.com", phone: "+233 201 234 5678", type: "Business", kybStatus: "Tier 3", region: "Ghana", status: "Active", balance: 2500000 },
+    { id: "3", firstName: "Alex", middleName: "James", lastName: "Developer", name: "Alex James Developer", email: "alex@dev.com", phone: "+254 701 234 567", type: "Developer", kycStatus: "Tier 1", region: "Kenya", status: "Active", balance: 50000 },
+    { id: "4", firstName: "John", middleName: "Michael", lastName: "Admin", name: "John Michael Admin", email: "john@surebanker.com", phone: "+234 802 345 6789", type: "Admin", kycStatus: "Verified", region: "Nigeria", status: "Active", balance: 0 },
+    { id: "5", firstName: "Sarah", middleName: "Jane", lastName: "Support", name: "Sarah Jane Support", email: "sarah@surebanker.com", phone: "+233 202 345 678", type: "Support", kycStatus: "Verified", region: "Ghana", status: "Active", balance: 0 },
+    { id: "6", firstName: "Mike", middleName: "", lastName: "SuperAdmin", name: "Mike SuperAdmin", email: "mike@surebanker.com", phone: "+254 702 345 678", type: "SuperAdmin", kycStatus: "Verified", region: "Kenya", status: "Active", balance: 0 }
   ];
 
   const regions = [
@@ -1042,11 +1042,11 @@ export const SuperAdminDashboard = (): JSX.Element => {
                       <div className="flex items-center gap-3">
                         <Avatar className="w-10 h-10">
                           <AvatarFallback className="bg-[#5B52FF] text-white">
-                            {user.name.split(' ').map(n => n[0]).join('')}
+                            {user.firstName.charAt(0)}{user.lastName.charAt(0)}
                           </AvatarFallback>
                         </Avatar>
                         <div>
-                          <p className="font-medium text-[#1E293B]">{user.name}</p>
+                          <p className="font-medium text-[#1E293B]">{user.firstName} {user.middleName} {user.lastName}</p>
                           <p className="text-sm text-[#64748B]">{user.email}</p>
                         </div>
                       </div>
@@ -1081,7 +1081,20 @@ export const SuperAdminDashboard = (): JSX.Element => {
                         <Button 
                           variant="ghost" 
                           size="sm"
-                          onClick={() => showSuccess("User Updated", `${user.name} has been updated successfully`)}
+                          onClick={() => {
+                            setSelectedUser(user);
+                            setUserFormData({
+                              firstName: user.firstName,
+                              middleName: user.middleName,
+                              lastName: user.lastName,
+                              email: user.email,
+                              phone: user.phone,
+                              userType: user.type,
+                              region: user.region,
+                              status: user.status
+                            });
+                            setShowUserDetailsModal(true);
+                          }}
                         >
                           <SettingsIcon className="w-4 h-4" />
                         </Button>
@@ -2620,7 +2633,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
                           size="sm"
                           onClick={() => showSuccess("Terminal Frozen", `Terminal ${terminal.terminalId} has been frozen successfully`)}
                         >
-                          <XCircleIcon className="w-4 h-4" />
+                          <LockIcon className="w-4 h-4" />
                         </Button>
                         <Button 
                           variant="ghost" 

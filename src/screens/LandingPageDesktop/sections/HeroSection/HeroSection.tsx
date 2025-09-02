@@ -118,7 +118,7 @@ export const HeroSection = (): JSX.Element => {
         <div className="relative max-w-6xl mx-auto">
           <div className="bg-white rounded-xl lg:rounded-2xl border border-gray-200 overflow-hidden">
             <img 
-              src="/Screenshot 2025-06-30 022716.png" 
+              src="/Desktop - 4.png" 
               alt="SureBanker Dashboard" 
               className="w-full h-auto object-contain"
             />

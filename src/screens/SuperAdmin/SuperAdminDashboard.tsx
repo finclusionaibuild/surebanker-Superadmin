@@ -6831,11 +6831,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
           </div>
 
           <nav className="flex-1 p-4 overflow-y-auto">
-            {/* Account Type Switcher */}
-            <div className="mb-4">
-              <AccountTypeSwitcher variant="sidebar" />
-            </div>
-
             <div className="space-y-1">
               {superAdminNavItems.map((item) => (
                 <div

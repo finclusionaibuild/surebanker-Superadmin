@@ -103,9 +103,9 @@ export const SuperAdminDashboard = (): JSX.Element => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [selectedRegion, setSelectedRegion] = useState("all");
-  const [showAddTerminalModal, setShowAddTerminalModal] = useState(false);
-  const [showAssignTerminalModal, setShowAssignTerminalModal] = useState(false);
-  const [showUserDetailsModal, setShowUserDetailsModal] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  
+  // Modal states for all features
   const [showCreateAdminModal, setShowCreateAdminModal] = useState(false);
   const [showCreateRoleModal, setShowCreateRoleModal] = useState(false);
   const [showCreateUserModal, setShowCreateUserModal] = useState(false);
@@ -123,12 +123,16 @@ export const SuperAdminDashboard = (): JSX.Element => {
   const [showCreateWhiteLabelModal, setShowCreateWhiteLabelModal] = useState(false);
   const [showCreateCampaignModal, setShowCreateCampaignModal] = useState(false);
   const [showCreateRewardModal, setShowCreateRewardModal] = useState(false);
+  const [showAddTerminalModal, setShowAddTerminalModal] = useState(false);
+  const [showAssignTerminalModal, setShowAssignTerminalModal] = useState(false);
+  const [showUserDetailsModal, setShowUserDetailsModal] = useState(false);
+  
+  // Selected items for modals
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedTerminal, setSelectedTerminal] = useState(null);
   const [selectedDispute, setSelectedDispute] = useState(null);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [exportType, setExportType] = useState("");
-  const [isProcessing, setIsProcessing] = useState(false);
   
   // Security settings state
   const [securitySettings, setSecuritySettings] = useState({
@@ -373,11 +377,11 @@ export const SuperAdminDashboard = (): JSX.Element => {
     { id: "kyc", name: "KYC Management", icon: <FileTextIcon className="w-5 h-5" />, description: "Identity Verification" },
     { id: "kyb", name: "KYB Management", icon: <BuildingIcon className="w-5 h-5" />, description: "Business Verification" },
     { id: "regional", name: "Regional Management", icon: <GlobeIcon className="w-5 h-5" />, description: "Multi-Region Control" },
+    { id: "pos", name: "POS Management", icon: <BuildingIcon className="w-5 h-5" />, description: "Terminal Control" },
+    { id: "cards", name: "Card Management", icon: <CreditCardIcon className="w-5 h-5" />, description: "Card Operations" },
     { id: "bulk-data", name: "Bulk Data Management", icon: <DatabaseIcon className="w-5 h-5" />, description: "Data Operations" },
     { id: "approval-workflow", name: "Approval Workflow", icon: <CheckCircleIcon className="w-5 h-5" />, description: "Workflow Management" },
     { id: "transactions", name: "Transaction Management", icon: <CreditCardIcon className="w-5 h-5" />, description: "Transaction Control" },
-    { id: "cards", name: "Card Management", icon: <CreditCardIcon className="w-5 h-5" />, description: "Card Operations" },
-    { id: "pos", name: "POS Management", icon: <BuildingIcon className="w-5 h-5" />, description: "Terminal Control" },
     { id: "third-party", name: "Third Party Integration", icon: <LinkIcon className="w-5 h-5" />, description: "External Services" },
     { id: "api", name: "API Management", icon: <CodeIcon className="w-5 h-5" />, description: "API Control" },
     { id: "developer", name: "Developer Tools", icon: <CodeIcon className="w-5 h-5" />, description: "Dev Environment" },
@@ -398,7 +402,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
     { id: "tickets", name: "Ticketing System", icon: <TicketIcon className="w-5 h-5" />, description: "Support Tickets" },
     { id: "white-label", name: "White Labelling", icon: <PaletteIcon className="w-5 h-5" />, description: "Platform Customization" },
     { id: "referrals", name: "Referrals Management", icon: <GiftIcon className="w-5 h-5" />, description: "Referral System" },
-    { id: "rewards", name: "Reward Management", icon: <StarIcon className="w-5 h-5" />, description: "Reward System" },
     { id: "ratings", name: "Ratings Management", icon: <StarIcon className="w-5 h-5" />, description: "Rating System" },
     { id: "documents", name: "Document Management", icon: <FolderIcon className="w-5 h-5" />, description: "Document Control" },
     { id: "security", name: "Security Center", icon: <LockIcon className="w-5 h-5" />, description: "Security Management" },
@@ -406,7 +409,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
     { id: "downtime", name: "Downtime Tracker", icon: <WifiOffIcon className="w-5 h-5" />, description: "Uptime Monitoring" }
   ];
 
-  // Sample data for all pages
+  // Sample data for all features
   const platformStats = {
     totalUsers: 2500000,
     totalTransactions: 45600000,
@@ -1188,9 +1191,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
     </div>
   );
 
-  // Additional comprehensive render functions would continue here for all remaining features...
-  // Due to length constraints, I'll provide the key structure and patterns
-
+  // Render current page based on selection
   const renderCurrentPage = () => {
     switch (currentPage) {
       case "dashboard":
@@ -1207,16 +1208,16 @@ export const SuperAdminDashboard = (): JSX.Element => {
         return renderKYB();
       case "regional":
         return renderRegional();
+      case "pos":
+        return renderPOS();
+      case "cards":
+        return renderCards();
       case "bulk-data":
         return renderBulkData();
       case "approval-workflow":
         return renderApprovalWorkflow();
       case "transactions":
         return renderTransactions();
-      case "cards":
-        return renderCards();
-      case "pos":
-        return renderPOS();
       case "third-party":
         return renderThirdParty();
       case "api":
@@ -1257,8 +1258,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
         return renderWhiteLabel();
       case "referrals":
         return renderReferrals();
-      case "rewards":
-        return renderRewards();
       case "ratings":
         return renderRatings();
       case "documents":
@@ -1275,49 +1274,541 @@ export const SuperAdminDashboard = (): JSX.Element => {
   };
 
   // Placeholder render functions for remaining features
-  const renderRBAC = () => <div>RBAC Management - Full implementation available</div>;
-  const renderUsers = () => <div>User Management - Full implementation available</div>;
-  const renderKYC = () => <div>KYC Management - Full implementation available</div>;
-  const renderKYB = () => <div>KYB Management - Full implementation available</div>;
-  const renderRegional = () => <div>Regional Management - Full implementation available</div>;
-  const renderBulkData = () => <div>Bulk Data Management - Full implementation available</div>;
-  const renderApprovalWorkflow = () => <div>Approval Workflow - Full implementation available</div>;
-  const renderTransactions = () => <div>Transaction Management - Full implementation available</div>;
-  const renderCards = () => <div>Card Management - Full implementation available</div>;
-  const renderPOS = () => <div>POS Management - Full implementation available</div>;
-  const renderThirdParty = () => <div>Third Party Integration - Full implementation available</div>;
-  const renderAPI = () => <div>API Management - Full implementation available</div>;
-  const renderDeveloper = () => <div>Developer Tools - Full implementation available</div>;
-  const renderMarketplace = () => <div>Marketplace Management - Full implementation available</div>;
-  const renderDatabase = () => <div>Database Management - Full implementation available</div>;
-  const renderSystemHealth = () => <div>System Health Analytics - Full implementation available</div>;
-  const renderSubscription = () => <div>Subscription Management - Full implementation available</div>;
-  const renderSystemLogs = () => <div>System Log Management - Full implementation available</div>;
-  const renderProfile = () => <div>Profile Management - Full implementation available</div>;
-  const renderWallet = () => <div>Wallet Management - Full implementation available</div>;
-  const renderEscrow = () => <div>Escrow Management - Full implementation available</div>;
-  const renderBackgroundCheck = () => <div>Background Check Management - Full implementation available</div>;
-  const renderReports = () => <div>Reports & Analytics - Full implementation available</div>;
-  const renderDisputes = () => <div>Dispute Management - Full implementation available</div>;
-  const renderChat = () => <div>Chat Management - Full implementation available</div>;
-  const renderEmail = () => <div>Email & Template Management - Full implementation available</div>;
-  const renderNotifications = () => <div>Notification Management - Full implementation available</div>;
-  const renderTickets = () => <div>Ticketing System - Full implementation available</div>;
-  const renderWhiteLabel = () => <div>White Labelling - Full implementation available</div>;
-  const renderReferrals = () => <div>Referrals Management - Full implementation available</div>;
-  const renderRewards = () => <div>Reward Management - Full implementation available</div>;
-  const renderRatings = () => <div>Ratings Management - Full implementation available</div>;
-  const renderDocuments = () => <div>Document Management - Full implementation available</div>;
-  const renderSecurity = () => <div>Security Center - Full implementation available</div>;
-  const renderContent = () => <div>Website Content Management - Full implementation available</div>;
-  const renderDowntime = () => <div>Downtime Tracker - Full implementation available</div>;
+  const renderRBAC = () => (
+    <div className="space-y-6">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-2xl font-bold text-[#1E293B]">RBAC & Permissions</h2>
+          <p className="text-[#64748B]">Manage roles and permissions for admin users</p>
+        </div>
+        <Button 
+          className="bg-[#7C3AED] text-white w-full sm:w-auto"
+          onClick={() => setShowCreateRoleModal(true)}
+        >
+          <PlusIcon className="w-4 h-4 mr-2" />
+          Create Role
+        </Button>
+      </div>
+
+      {/* RBAC Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <KeyIcon className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Roles</p>
+                <p className="text-2xl font-bold text-[#1E293B]">15</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <ShieldCheckIcon className="w-6 h-6 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Total Permissions</p>
+                <p className="text-2xl font-bold text-[#1E293B]">127</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <UsersIcon className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Assigned Users</p>
+                <p className="text-2xl font-bold text-[#1E293B]">247</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow">
+          <CardContent className="p-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                <GlobeIcon className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <p className="text-sm text-[#64748B]">Active Regions</p>
+                <p className="text-2xl font-bold text-[#1E293B]">10</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Roles Table */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Roles & Permissions</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ROLE NAME</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">PERMISSIONS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ASSIGNED USERS</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">DESCRIPTION</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CREATED</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">LAST MODIFIED</th>
+                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {roles.map((role) => (
+                  <tr key={role.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <td className="py-3 px-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-[#F1F5F9] rounded-lg flex items-center justify-center">
+                          <KeyIcon className="w-5 h-5 text-[#7C3AED]" />
+                        </div>
+                        <span className="font-medium text-[#1E293B]">{role.name}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{role.permissions} permissions</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{role.users} users</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{role.description}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{role.createdDate}</td>
+                    <td className="py-3 px-4 text-sm text-[#64748B]">{role.lastModified}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex gap-2">
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Role Details", `Viewing permissions for ${role.name}`)}
+                        >
+                          <EyeIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Role Edited", `${role.name} opened for editing`)}
+                        >
+                          <EditIcon className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => showSuccess("Role Updated", `${role.name} permissions have been updated successfully`)}
+                        >
+                          <SettingsIcon className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Permission Categories */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold text-[#1E293B] mb-4">Permission Categories</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+              <h4 className="font-semibold text-[#1E293B] mb-2">User Management</h4>
+              <p className="text-sm text-[#64748B] mb-3">Control user accounts, KYC, and verification</p>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <CheckCircleIcon className="w-4 h-4 text-green-600" />
+                  <span className="text-sm">Create Users</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircleIcon className="w-4 h-4 text-green-600" />
+                  <span className="text-sm">Edit Users</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircleIcon className="w-4 h-4 text-green-600" />
+                  <span className="text-sm">Approve KYC</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+              <h4 className="font-semibold text-[#1E293B] mb-2">Transaction Control</h4>
+              <p className="text-sm text-[#64748B] mb-3">Manage transactions and financial operations</p>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <CheckCircleIcon className="w-4 h-4 text-green-600" />
+                  <span className="text-sm">View Transactions</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircleIcon className="w-4 h-4 text-green-600" />
+                  <span className="text-sm">Reverse Transactions</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircleIcon className="w-4 h-4 text-green-600" />
+                  <span className="text-sm">Manage Disputes</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+              <h4 className="font-semibold text-[#1E293B] mb-2">System Configuration</h4>
+              <p className="text-sm text-[#64748B] mb-3">Configure platform settings and features</p>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <CheckCircleIcon className="w-4 h-4 text-green-600" />
+                  <span className="text-sm">System Settings</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircleIcon className="w-4 h-4 text-green-600" />
+                  <span className="text-sm">Feature Flags</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircleIcon className="w-4 h-4 text-green-600" />
+                  <span className="text-sm">Regional Config</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  // Placeholder render functions for remaining features (implementing key ones)
+  const renderUsers = () => (
+    <div className="text-center py-12">
+      <UsersIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">User Management</h3>
+      <p className="text-[#64748B]">Comprehensive user management system with advanced filtering and controls</p>
+    </div>
+  );
+
+  const renderKYC = () => (
+    <div className="text-center py-12">
+      <FileTextIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">KYC Management</h3>
+      <p className="text-[#64748B]">Identity verification workflow with document management</p>
+    </div>
+  );
+
+  const renderKYB = () => (
+    <div className="text-center py-12">
+      <BuildingIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">KYB Management</h3>
+      <p className="text-[#64748B]">Business verification and compliance management</p>
+    </div>
+  );
+
+  const renderRegional = () => (
+    <div className="text-center py-12">
+      <GlobeIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Regional Management</h3>
+      <p className="text-[#64748B]">Multi-regional platform control with separate databases</p>
+    </div>
+  );
+
+  const renderPOS = () => (
+    <div className="text-center py-12">
+      <BuildingIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">POS Management</h3>
+      <p className="text-[#64748B]">Point-of-sale terminal management and monitoring</p>
+    </div>
+  );
+
+  const renderCards = () => (
+    <div className="text-center py-12">
+      <CreditCardIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Card Management</h3>
+      <p className="text-[#64748B]">Payment card lifecycle management and controls</p>
+    </div>
+  );
+
+  const renderBulkData = () => (
+    <div className="text-center py-12">
+      <DatabaseIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Bulk Data Management</h3>
+      <p className="text-[#64748B]">Large-scale data operations and historical archives</p>
+    </div>
+  );
+
+  const renderApprovalWorkflow = () => (
+    <div className="text-center py-12">
+      <CheckCircleIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Approval Workflow</h3>
+      <p className="text-[#64748B]">Multi-stage approval processes and business rules</p>
+    </div>
+  );
+
+  const renderTransactions = () => (
+    <div className="text-center py-12">
+      <CreditCardIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Transaction Management</h3>
+      <p className="text-[#64748B]">Comprehensive transaction monitoring and control</p>
+    </div>
+  );
+
+  const renderThirdParty = () => (
+    <div className="text-center py-12">
+      <LinkIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Third Party Integration</h3>
+      <p className="text-[#64748B]">External service integration management</p>
+    </div>
+  );
+
+  const renderAPI = () => (
+    <div className="text-center py-12">
+      <CodeIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">API Management</h3>
+      <p className="text-[#64748B]">API lifecycle management with monitoring</p>
+    </div>
+  );
+
+  const renderDeveloper = () => (
+    <div className="text-center py-12">
+      <CodeIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Developer Tools</h3>
+      <p className="text-[#64748B]">Developer environment and sandbox management</p>
+    </div>
+  );
+
+  const renderMarketplace = () => (
+    <div className="text-center py-12">
+      <ShoppingCartIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Marketplace Management</h3>
+      <p className="text-[#64748B]">Product catalog and vendor management</p>
+    </div>
+  );
+
+  const renderDatabase = () => (
+    <div className="text-center py-12">
+      <HardDriveIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Database Management</h3>
+      <p className="text-[#64748B]">Multi-database monitoring and maintenance</p>
+    </div>
+  );
+
+  const renderSystemHealth = () => (
+    <div className="text-center py-12">
+      <ActivityIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">System Health Analytics</h3>
+      <p className="text-[#64748B]">Platform monitoring and performance analytics</p>
+    </div>
+  );
+
+  const renderSubscription = () => (
+    <div className="text-center py-12">
+      <DollarSignIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Subscription & Fee Management</h3>
+      <p className="text-[#64748B]">Billing and subscription management</p>
+    </div>
+  );
+
+  const renderSystemLogs = () => (
+    <div className="text-center py-12">
+      <FileTextIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">System Log Management</h3>
+      <p className="text-[#64748B]">Centralized logging and analysis</p>
+    </div>
+  );
+
+  const renderProfile = () => (
+    <div className="text-center py-12">
+      <UserIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Profile Settings</h3>
+      <p className="text-[#64748B]">Admin profile management and preferences</p>
+    </div>
+  );
+
+  const renderWallet = () => (
+    <div className="text-center py-12">
+      <WalletIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Wallet Management</h3>
+      <p className="text-[#64748B]">Administrative wallet operations and monitoring</p>
+    </div>
+  );
+
+  const renderEscrow = () => (
+    <div className="text-center py-12">
+      <HandshakeIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Escrow Management</h3>
+      <p className="text-[#64748B]">Escrow transaction lifecycle management</p>
+    </div>
+  );
+
+  const renderBackgroundCheck = () => (
+    <div className="text-center py-12">
+      <SearchCheckIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Background Check Management</h3>
+      <p className="text-[#64748B]">Automated background verification processes</p>
+    </div>
+  );
+
+  const renderReports = () => (
+    <div className="text-center py-12">
+      <PieChartIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Reports & Analytics</h3>
+      <p className="text-[#64748B]">Platform analytics and report generation</p>
+    </div>
+  );
+
+  const renderDisputes = () => (
+    <div className="text-center py-12">
+      <AlertTriangleIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Dispute Management</h3>
+      <p className="text-[#64748B]">Customer dispute resolution workflows</p>
+    </div>
+  );
+
+  const renderChat = () => (
+    <div className="text-center py-12">
+      <MessageSquareIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Chat Management</h3>
+      <p className="text-[#64748B]">Platform-wide chat administration</p>
+    </div>
+  );
+
+  const renderEmail = () => (
+    <div className="text-center py-12">
+      <MailIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Email & Template Management</h3>
+      <p className="text-[#64748B]">Email template builder and campaign management</p>
+    </div>
+  );
+
+  const renderNotifications = () => (
+    <div className="text-center py-12">
+      <BellIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Notification Management</h3>
+      <p className="text-[#64748B]">Multi-channel notification system</p>
+    </div>
+  );
+
+  const renderTickets = () => (
+    <div className="text-center py-12">
+      <TicketIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Ticketing System</h3>
+      <p className="text-[#64748B]">Support ticket lifecycle management</p>
+    </div>
+  );
+
+  const renderWhiteLabel = () => (
+    <div className="text-center py-12">
+      <PaletteIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">White Labelling</h3>
+      <p className="text-[#64748B]">Platform customization for white-label clients</p>
+    </div>
+  );
+
+  const renderReferrals = () => (
+    <div className="text-center py-12">
+      <GiftIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Referrals Management</h3>
+      <p className="text-[#64748B]">Referral program tracking and rewards</p>
+    </div>
+  );
+
+  const renderRatings = () => (
+    <div className="text-center py-12">
+      <StarIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Ratings Management</h3>
+      <p className="text-[#64748B]">Rating and review system with moderation</p>
+    </div>
+  );
+
+  const renderDocuments = () => (
+    <div className="text-center py-12">
+      <FolderIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Document Management</h3>
+      <p className="text-[#64748B]">Centralized document storage and verification</p>
+    </div>
+  );
+
+  const renderSecurity = () => (
+    <div className="text-center py-12">
+      <LockIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Security Center</h3>
+      <p className="text-[#64748B]">Security monitoring and incident response</p>
+    </div>
+  );
+
+  const renderContent = () => (
+    <div className="text-center py-12">
+      <MonitorIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Website Content Management</h3>
+      <p className="text-[#64748B]">CMS for landing pages and dynamic content</p>
+    </div>
+  );
+
+  const renderDowntime = () => (
+    <div className="text-center py-12">
+      <WifiOffIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+      <h3 className="text-lg font-semibold text-[#1E293B] mb-2">Downtime Tracker</h3>
+      <p className="text-[#64748B]">Incident management and uptime monitoring</p>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <Card className="w-full max-w-md mx-4 bg-white">
+            <CardContent className="p-8 text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircleIcon className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="text-xl font-bold text-[#1E293B] mb-2">{successMessage.title}</h3>
+              <p className="text-[#64748B] mb-6">{successMessage.message}</p>
+              <Button 
+                onClick={() => setShowSuccessModal(false)}
+                className="bg-[#7C3AED] text-white w-full"
+              >
+                Continue
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Export Modal */}
+      {showExportModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <Card className="w-full max-w-md mx-4 bg-white">
+            <CardContent className="p-8 text-center">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <DownloadIcon className={`w-8 h-8 text-blue-600 ${isProcessing ? 'animate-bounce' : ''}`} />
+              </div>
+              <h3 className="text-xl font-bold text-[#1E293B] mb-2">
+                {isProcessing ? 'Exporting Data...' : 'Export Complete'}
+              </h3>
+              <p className="text-[#64748B] mb-6">
+                {isProcessing ? `Preparing ${exportType} for download` : `${exportType} has been exported successfully`}
+              </p>
+              {!isProcessing && (
+                <Button 
+                  onClick={() => setShowExportModal(false)}
+                  className="bg-[#7C3AED] text-white w-full"
+                >
+                  Close
+                </Button>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {/* Desktop Layout */}
       <div className="hidden lg:flex">
         {/* Super Admin Sidebar */}
-        <div className="w-64 bg-white border-r border-gray-200 flex flex-col h-screen fixed left-0 top-0">
+        <div className="w-80 bg-white border-r border-gray-200 flex flex-col h-screen fixed left-0 top-0">
           <div className="p-6 border-b border-gray-200">
             <div className="flex items-center gap-3">
               <img 
@@ -1348,10 +1839,10 @@ export const SuperAdminDashboard = (): JSX.Element => {
                     {item.icon}
                   </div>
                   <div className="flex-1">
-                    <span className="font-medium text-sm">{item.name}</span>
-                    <p className={`text-xs ${currentPage === item.id ? 'text-white/70' : 'text-[#64748B]'}`}>
+                    <span className="font-medium block">{item.name}</span>
+                    <span className={`text-xs ${currentPage === item.id ? 'text-white/70' : 'text-[#64748B]'}`}>
                       {item.description}
-                    </p>
+                    </span>
                   </div>
                 </div>
               ))}
@@ -1379,7 +1870,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 flex flex-col ml-64">
+        <div className="flex-1 flex flex-col ml-80">
           <header className="bg-white border-b border-gray-200 px-6 py-4 sticky top-0 z-40">
             <div className="flex items-center justify-between">
               <div>
@@ -1420,7 +1911,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
             </div>
           </header>
 
-          <main className="flex-1 p-6 overflow-y-auto">
+          <main className="flex-1 p-6">
             {renderCurrentPage()}
           </main>
         </div>
@@ -1476,54 +1967,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
           </div>
         </div>
       </div>
-
-      {/* Success Modal */}
-      {showSuccessModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <Card className="w-full max-w-md bg-white">
-            <CardContent className="p-6 text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircleIcon className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-xl font-bold text-[#1E293B] mb-2">{successMessage.title}</h3>
-              <p className="text-[#64748B] mb-6">{successMessage.message}</p>
-              <Button 
-                onClick={() => setShowSuccessModal(false)}
-                className="bg-[#7C3AED] text-white w-full"
-              >
-                Continue
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
-      {/* Export Modal */}
-      {showExportModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <Card className="w-full max-w-md bg-white">
-            <CardContent className="p-6 text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <DownloadIcon className={`w-8 h-8 text-blue-600 ${isProcessing ? 'animate-bounce' : ''}`} />
-              </div>
-              <h3 className="text-xl font-bold text-[#1E293B] mb-2">
-                {isProcessing ? 'Exporting Data...' : 'Export Complete'}
-              </h3>
-              <p className="text-[#64748B] mb-6">
-                {isProcessing ? `Preparing ${exportType} export...` : `${exportType} has been exported successfully`}
-              </p>
-              {!isProcessing && (
-                <Button 
-                  onClick={() => setShowExportModal(false)}
-                  className="bg-[#7C3AED] text-white w-full"
-                >
-                  Close
-                </Button>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      )}
 
       {/* Logout Button */}
       <div className="fixed bottom-20 right-6 lg:bottom-6">

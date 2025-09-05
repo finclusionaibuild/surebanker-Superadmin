@@ -103,9 +103,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [selectedRegion, setSelectedRegion] = useState("all");
-  const [showAddTerminalModal, setShowAddTerminalModal] = useState(false);
-  const [showAssignTerminalModal, setShowAssignTerminalModal] = useState(false);
-  const [showUserDetailsModal, setShowUserDetailsModal] = useState(false);
   const [showCreateAdminModal, setShowCreateAdminModal] = useState(false);
   const [showCreateRoleModal, setShowCreateRoleModal] = useState(false);
   const [showCreateUserModal, setShowCreateUserModal] = useState(false);
@@ -123,8 +120,8 @@ export const SuperAdminDashboard = (): JSX.Element => {
   const [showCreateWhiteLabelModal, setShowCreateWhiteLabelModal] = useState(false);
   const [showCreateCampaignModal, setShowCreateCampaignModal] = useState(false);
   const [showCreateRewardModal, setShowCreateRewardModal] = useState(false);
+  const [showUserDetailsModal, setShowUserDetailsModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [selectedTerminal, setSelectedTerminal] = useState(null);
   const [selectedDispute, setSelectedDispute] = useState(null);
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [exportType, setExportType] = useState("");
@@ -143,17 +140,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
   });
 
   // Form data states for various modals
-  const [terminalFormData, setTerminalFormData] = useState({
-    terminalId: "",
-    merchantName: "",
-    location: "",
-    region: "",
-    serialNumber: "",
-    model: "",
-    dailyLimit: "",
-    monthlyLimit: ""
-  });
-
   const [userFormData, setUserFormData] = useState({
     firstName: "",
     middleName: "",
@@ -178,106 +164,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
     name: "",
     description: "",
     permissions: []
-  });
-
-  const [workflowFormData, setWorkflowFormData] = useState({
-    name: "",
-    description: "",
-    stages: [],
-    conditions: [],
-    autoApprovalRules: []
-  });
-
-  const [integrationFormData, setIntegrationFormData] = useState({
-    name: "",
-    type: "",
-    endpoint: "",
-    apiKey: "",
-    region: "",
-    configuration: {}
-  });
-
-  const [apiFormData, setApiFormData] = useState({
-    endpoint: "",
-    method: "GET",
-    description: "",
-    rateLimit: "",
-    authentication: "Bearer",
-    documentation: ""
-  });
-
-  const [developerFormData, setDeveloperFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    region: "",
-    accessLevel: "Sandbox"
-  });
-
-  const [productFormData, setProductFormData] = useState({
-    name: "",
-    vendor: "",
-    price: "",
-    description: "",
-    category: "",
-    features: []
-  });
-
-  const [subscriptionFormData, setSubscriptionFormData] = useState({
-    planName: "",
-    price: "",
-    features: [],
-    billingCycle: "Monthly",
-    userLimit: ""
-  });
-
-  const [templateFormData, setTemplateFormData] = useState({
-    name: "",
-    subject: "",
-    type: "Notification",
-    content: "",
-    variables: []
-  });
-
-  const [notificationFormData, setNotificationFormData] = useState({
-    title: "",
-    message: "",
-    type: "System",
-    recipients: "All Users",
-    scheduledTime: ""
-  });
-
-  const [contentFormData, setContentFormData] = useState({
-    title: "",
-    type: "Legal",
-    content: "",
-    status: "Draft",
-    author: ""
-  });
-
-  const [whiteLabelFormData, setWhiteLabelFormData] = useState({
-    clientName: "",
-    domain: "",
-    primaryColor: "#5B52FF",
-    secondaryColor: "#7C3AED",
-    logo: "",
-    customFeatures: []
-  });
-
-  const [campaignFormData, setCampaignFormData] = useState({
-    name: "",
-    description: "",
-    rewardAmount: "",
-    endDate: "",
-    targetAudience: "All Users"
-  });
-
-  const [rewardFormData, setRewardFormData] = useState({
-    name: "",
-    type: "Cashback",
-    value: "",
-    conditions: [],
-    expiryDate: ""
   });
 
   // Confetti animation function
@@ -386,11 +272,9 @@ export const SuperAdminDashboard = (): JSX.Element => {
     { id: "system-health", name: "System Health", icon: <ActivityIcon className="w-5 h-5" />, description: "Analytics" },
     { id: "subscription", name: "Subscription & Fees", icon: <DollarSignIcon className="w-5 h-5" />, description: "Billing Management" },
     { id: "system-logs", name: "System Logs", icon: <FileTextIcon className="w-5 h-5" />, description: "Log Management" },
-    { id: "profile", name: "Profile Settings", icon: <UserIcon className="w-5 h-5" />, description: "Admin Profile" },
     { id: "wallet", name: "Wallet Management", icon: <WalletIcon className="w-5 h-5" />, description: "Wallet Operations" },
     { id: "escrow", name: "Escrow Management", icon: <HandshakeIcon className="w-5 h-5" />, description: "Escrow Control" },
     { id: "background-check", name: "Background Check", icon: <SearchCheckIcon className="w-5 h-5" />, description: "User Screening" },
-    { id: "reports", name: "Reports & Analytics", icon: <PieChartIcon className="w-5 h-5" />, description: "Platform Reports" },
     { id: "disputes", name: "Dispute Management", icon: <AlertTriangleIcon className="w-5 h-5" />, description: "Dispute Resolution" },
     { id: "chat", name: "Chat Management", icon: <MessageSquareIcon className="w-5 h-5" />, description: "Platform Chat" },
     { id: "email", name: "Email & Templates", icon: <MailIcon className="w-5 h-5" />, description: "Email Management" },
@@ -462,9 +346,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
   const posTerminals = [
     { id: "POS001", terminalId: "TRM12345", merchantName: "Main Store", location: "Lagos, Nigeria", status: "Active", dailyVolume: 450000, transactionCount: 156, uptime: "99.8%", assignedUser: "Tech Solutions Ltd", serialNumber: "SN001234", model: "POS-X1", lastTransaction: "2024-01-15 14:30", region: "Nigeria" },
     { id: "POS002", terminalId: "TRM12346", merchantName: "Satellite Office", location: "Accra, Ghana", status: "Offline", dailyVolume: 0, transactionCount: 0, uptime: "0%", assignedUser: "Retail Masters Inc", serialNumber: "SN001235", model: "POS-X2", lastTransaction: "2024-01-14 16:45", region: "Ghana" },
-    { id: "POS003", terminalId: "TRM12347", merchantName: "Branch Store", location: "Nairobi, Kenya", status: "Maintenance", dailyVolume: 125000, transactionCount: 45, uptime: "95.2%", assignedUser: "Green Energy Corp", serialNumber: "SN001236", model: "POS-X1", lastTransaction: "2024-01-15 11:20", region: "Kenya" },
-    { id: "POS004", terminalId: "TRM12348", merchantName: "Unassigned Terminal", location: "Lagos, Nigeria", status: "Inactive", dailyVolume: 0, transactionCount: 0, uptime: "0%", assignedUser: null, serialNumber: "SN001237", model: "POS-X3", lastTransaction: "Never", region: "Nigeria" },
-    { id: "POS005", terminalId: "TRM12349", merchantName: "Unassigned Terminal", location: "Accra, Ghana", status: "Frozen", dailyVolume: 0, transactionCount: 0, uptime: "0%", assignedUser: null, serialNumber: "SN001238", model: "POS-X2", lastTransaction: "2024-01-10 09:15", region: "Ghana" }
+    { id: "POS003", terminalId: "TRM12347", merchantName: "Branch Store", location: "Nairobi, Kenya", status: "Maintenance", dailyVolume: 125000, transactionCount: 45, uptime: "95.2%", assignedUser: "Green Energy Corp", serialNumber: "SN001236", model: "POS-X1", lastTransaction: "2024-01-15 11:20", region: "Kenya" }
   ];
 
   const approvalRequests = [
@@ -1626,11 +1508,9 @@ export const SuperAdminDashboard = (): JSX.Element => {
     </div>
   );
 
-  // Render function for the current page
+  // Render current page based on selection
   const renderCurrentPage = () => {
     switch (currentPage) {
-      case "dashboard":
-        return renderDashboard();
       case "admin-users":
         return renderAdminUsers();
       case "rbac":
@@ -1638,313 +1518,209 @@ export const SuperAdminDashboard = (): JSX.Element => {
       case "users":
         return renderUsers();
       case "kyc":
-        return renderKYC();
-      case "kyb":
-        return renderKYB();
-      case "regional":
-        return renderRegional();
-      case "bulk-data":
-        return renderBulkData();
-      case "approval-workflow":
-        return renderApprovalWorkflow();
-      case "transactions":
-        return renderTransactions();
-      case "cards":
-        return renderCards();
-      case "pos":
-        return renderPOS();
-      case "third-party":
-        return renderThirdParty();
-      case "api":
-        return renderAPI();
-      case "developer":
-        return renderDeveloper();
-      case "marketplace":
-        return renderMarketplace();
-      case "database":
-        return renderDatabase();
-      case "system-health":
-        return renderSystemHealth();
-      case "subscription":
-        return renderSubscription();
-      case "system-logs":
-        return renderSystemLogs();
-      case "profile":
-        return renderProfile();
-      case "wallet":
-        return renderWallet();
-      case "escrow":
-        return renderEscrow();
-      case "background-check":
-        return renderBackgroundCheck();
-      case "reports":
-        return renderReports();
-      case "disputes":
-        return renderDisputes();
-      case "chat":
-        return renderChat();
-      case "email":
-        return renderEmail();
-      case "notifications":
-        return renderNotifications();
-      case "tickets":
-        return renderTickets();
-      case "white-label":
-        return renderWhiteLabel();
-      case "referrals":
-        return renderReferrals();
-      case "rewards":
-        return renderRewards();
-      case "ratings":
-        return renderRatings();
-      case "documents":
-        return renderDocuments();
-      case "security":
-        return renderSecurity();
-      case "content":
-        return renderContent();
-      case "downtime":
-        return renderDowntime();
+        return (
+          <div className="space-y-6">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-2xl font-bold text-[#1E293B]">KYC Management</h2>
+                <p className="text-[#64748B]">Manage individual user identity verification</p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button 
+                  variant="outline" 
+                  className="flex items-center gap-2 w-full sm:w-auto"
+                  onClick={() => handleExport("KYC Data")}
+                >
+                  <DownloadIcon className="w-4 h-4" />
+                  Export KYC Data
+                </Button>
+                <Button 
+                  className="bg-[#7C3AED] text-white w-full sm:w-auto"
+                  onClick={() => showSuccess("KYC Approved", "KYC verification has been approved and user has been notified")}
+                >
+                  <CheckCircleIcon className="w-4 h-4 mr-2" />
+                  Bulk Approve
+                </Button>
+              </div>
+            </div>
+
+            {/* KYC Statistics */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <FileTextIcon className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-[#64748B]">Total KYC Cases</p>
+                      <p className="text-2xl font-bold text-[#1E293B]">45,623</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                      <CheckCircleIcon className="w-6 h-6 text-green-600" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-[#64748B]">Approved</p>
+                      <p className="text-2xl font-bold text-[#1E293B]">42,156</p>
+                      <p className="text-sm text-green-600">92.4% approval rate</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                      <ClockIcon className="w-6 h-6 text-yellow-600" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-[#64748B]">Under Review</p>
+                      <p className="text-2xl font-bold text-[#1E293B]">2,345</p>
+                      <p className="text-sm text-yellow-600">Avg 2.4 days</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                      <XCircleIcon className="w-6 h-6 text-red-600" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-[#64748B]">Rejected</p>
+                      <p className="text-2xl font-bold text-[#1E293B]">1,122</p>
+                      <p className="text-sm text-red-600">2.5% rejection rate</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* KYC Cases Table */}
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+                  <h3 className="text-lg font-semibold text-[#1E293B]">KYC Verification Cases</h3>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <div className="relative">
+                      <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
+                      <Input
+                        placeholder="Search KYC cases..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-10 w-full sm:w-64"
+                      />
+                    </div>
+                    <select 
+                      className="px-3 py-2 border border-gray-300 rounded-lg text-sm w-full sm:w-auto"
+                      value={selectedFilter}
+                      onChange={(e) => setSelectedFilter(e.target.value)}
+                    >
+                      <option value="all">All Status</option>
+                      <option value="under-review">Under Review</option>
+                      <option value="approved">Approved</option>
+                      <option value="rejected">Rejected</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">USER</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">USER ID</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CURRENT TIER</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REQUESTED TIER</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">DOCUMENTS</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">SUBMITTED</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REVIEWER</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REGION</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {getFilteredKYCCases().map((kycCase) => (
+                        <tr key={kycCase.id} className="border-b border-gray-100 hover:bg-gray-50">
+                          <td className="py-3 px-4">
+                            <div className="flex items-center gap-3">
+                              <Avatar className="w-10 h-10">
+                                <AvatarFallback className="bg-[#7C3AED] text-white">
+                                  {kycCase.userName.split(' ').map(n => n[0]).join('')}
+                                </AvatarFallback>
+                              </Avatar>
+                              <span className="font-medium text-[#1E293B]">{kycCase.userName}</span>
+                            </div>
+                          </td>
+                          <td className="py-3 px-4 text-sm text-[#64748B]">{kycCase.userId}</td>
+                          <td className="py-3 px-4">
+                            <Badge variant="outline">{kycCase.currentTier}</Badge>
+                          </td>
+                          <td className="py-3 px-4">
+                            <Badge className="bg-blue-100 text-blue-800">{kycCase.requestedTier}</Badge>
+                          </td>
+                          <td className="py-3 px-4 text-sm text-[#64748B]">{kycCase.documents} documents</td>
+                          <td className="py-3 px-4">
+                            <Badge className={
+                              kycCase.status === "Approved" ? "bg-green-100 text-green-800" :
+                              kycCase.status === "Rejected" ? "bg-red-100 text-red-800" :
+                              "bg-yellow-100 text-yellow-800"
+                            }>
+                              {kycCase.status}
+                            </Badge>
+                          </td>
+                          <td className="py-3 px-4 text-sm text-[#64748B]">{kycCase.submittedDate}</td>
+                          <td className="py-3 px-4 text-sm text-[#64748B]">{kycCase.assignedReviewer}</td>
+                          <td className="py-3 px-4 text-sm text-[#64748B]">{kycCase.region}</td>
+                          <td className="py-3 px-4">
+                            <div className="flex gap-2">
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => showSuccess("KYC Details", `Viewing KYC documents for ${kycCase.userName}`)}
+                              >
+                                <EyeIcon className="w-4 h-4" />
+                              </Button>
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => showSuccess("KYC Approved", `${kycCase.userName}'s KYC has been approved successfully`)}
+                              >
+                                <CheckIcon className="w-4 h-4" />
+                              </Button>
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => showSuccess("KYC Rejected", `${kycCase.userName}'s KYC has been rejected and user notified`)}
+                              >
+                                <XIcon className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        );
       default:
         return renderDashboard();
     }
   };
-
-  // Additional render functions for remaining features
-  const renderKYC = () => (
-    <div className="space-y-6">
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold text-[#1E293B]">KYC Management</h2>
-          <p className="text-[#64748B]">Manage individual user identity verification</p>
-        </div>
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Button 
-            variant="outline" 
-            className="flex items-center gap-2 w-full sm:w-auto"
-            onClick={() => handleExport("KYC Data")}
-          >
-            <DownloadIcon className="w-4 h-4" />
-            Export KYC Data
-          </Button>
-          <Button 
-            className="bg-[#7C3AED] text-white w-full sm:w-auto"
-            onClick={() => showSuccess("KYC Approved", "KYC verification has been approved and user has been notified")}
-          >
-            <CheckCircleIcon className="w-4 h-4 mr-2" />
-            Bulk Approve
-          </Button>
-        </div>
-      </div>
-
-      {/* KYC Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="hover:shadow-lg transition-shadow">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <FileTextIcon className="w-6 h-6 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-sm text-[#64748B]">Total KYC Cases</p>
-                <p className="text-2xl font-bold text-[#1E293B]">45,623</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg transition-shadow">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <CheckCircleIcon className="w-6 h-6 text-green-600" />
-              </div>
-              <div>
-                <p className="text-sm text-[#64748B]">Approved</p>
-                <p className="text-2xl font-bold text-[#1E293B]">42,156</p>
-                <p className="text-sm text-green-600">92.4% approval rate</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg transition-shadow">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                <ClockIcon className="w-6 h-6 text-yellow-600" />
-              </div>
-              <div>
-                <p className="text-sm text-[#64748B]">Under Review</p>
-                <p className="text-2xl font-bold text-[#1E293B]">2,345</p>
-                <p className="text-sm text-yellow-600">Avg 2.4 days</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-lg transition-shadow">
-          <CardContent className="p-6">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                <XCircleIcon className="w-6 h-6 text-red-600" />
-              </div>
-              <div>
-                <p className="text-sm text-[#64748B]">Rejected</p>
-                <p className="text-2xl font-bold text-[#1E293B]">1,122</p>
-                <p className="text-sm text-red-600">2.5% rejection rate</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* KYC Cases Table */}
-      <Card>
-        <CardContent className="p-6">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
-            <h3 className="text-lg font-semibold text-[#1E293B]">KYC Verification Cases</h3>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <div className="relative">
-                <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
-                <Input
-                  placeholder="Search KYC cases..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 w-full sm:w-64"
-                />
-              </div>
-              <select 
-                className="px-3 py-2 border border-gray-300 rounded-lg text-sm w-full sm:w-auto"
-                value={selectedFilter}
-                onChange={(e) => setSelectedFilter(e.target.value)}
-              >
-                <option value="all">All Status</option>
-                <option value="under-review">Under Review</option>
-                <option value="approved">Approved</option>
-                <option value="rejected">Rejected</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">USER</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">USER ID</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">CURRENT TIER</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REQUESTED TIER</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">DOCUMENTS</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">STATUS</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">SUBMITTED</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REVIEWER</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">REGION</th>
-                  <th className="text-left py-3 px-4 text-sm font-medium text-[#64748B]">ACTIONS</th>
-                </tr>
-              </thead>
-              <tbody>
-                {getFilteredKYCCases().map((kycCase) => (
-                  <tr key={kycCase.id} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="py-3 px-4">
-                      <div className="flex items-center gap-3">
-                        <Avatar className="w-10 h-10">
-                          <AvatarFallback className="bg-[#7C3AED] text-white">
-                            {kycCase.userName.split(' ').map(n => n[0]).join('')}
-                          </AvatarFallback>
-                        </Avatar>
-                        <span className="font-medium text-[#1E293B]">{kycCase.userName}</span>
-                      </div>
-                    </td>
-                    <td className="py-3 px-4 text-sm text-[#64748B]">{kycCase.userId}</td>
-                    <td className="py-3 px-4">
-                      <Badge variant="outline">{kycCase.currentTier}</Badge>
-                    </td>
-                    <td className="py-3 px-4">
-                      <Badge className="bg-blue-100 text-blue-800">{kycCase.requestedTier}</Badge>
-                    </td>
-                    <td className="py-3 px-4 text-sm text-[#64748B]">{kycCase.documents} documents</td>
-                    <td className="py-3 px-4">
-                      <Badge className={
-                        kycCase.status === "Approved" ? "bg-green-100 text-green-800" :
-                        kycCase.status === "Rejected" ? "bg-red-100 text-red-800" :
-                        "bg-yellow-100 text-yellow-800"
-                      }>
-                        {kycCase.status}
-                      </Badge>
-                    </td>
-                    <td className="py-3 px-4 text-sm text-[#64748B]">{kycCase.submittedDate}</td>
-                    <td className="py-3 px-4 text-sm text-[#64748B]">{kycCase.assignedReviewer}</td>
-                    <td className="py-3 px-4 text-sm text-[#64748B]">{kycCase.region}</td>
-                    <td className="py-3 px-4">
-                      <div className="flex gap-2">
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={() => showSuccess("KYC Details", `Viewing KYC documents for ${kycCase.userName}`)}
-                        >
-                          <EyeIcon className="w-4 h-4" />
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={() => showSuccess("KYC Approved", `${kycCase.userName}'s KYC has been approved successfully`)}
-                        >
-                          <CheckIcon className="w-4 h-4" />
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={() => showSuccess("KYC Rejected", `${kycCase.userName}'s KYC has been rejected and user notified`)}
-                        >
-                          <XIcon className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
-
-  // Placeholder render functions for remaining features
-  const renderKYB = () => <div className="p-6 text-center"><BuildingIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">KYB Management</h3><p className="text-[#64748B]">Business verification management system</p></div>;
-  const renderRegional = () => <div className="p-6 text-center"><GlobeIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Regional Management</h3><p className="text-[#64748B]">Multi-regional platform control</p></div>;
-  const renderBulkData = () => <div className="p-6 text-center"><DatabaseIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Bulk Data Management</h3><p className="text-[#64748B]">Large-scale data operations</p></div>;
-  const renderApprovalWorkflow = () => <div className="p-6 text-center"><CheckCircleIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Approval Workflow</h3><p className="text-[#64748B]">Multi-stage approval management</p></div>;
-  const renderTransactions = () => <div className="p-6 text-center"><CreditCardIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Transaction Management</h3><p className="text-[#64748B]">Platform transaction control</p></div>;
-  const renderCards = () => <div className="p-6 text-center"><CreditCardIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Card Management</h3><p className="text-[#64748B]">Card operations and monitoring</p></div>;
-  const renderPOS = () => <div className="p-6 text-center"><BuildingIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">POS Management</h3><p className="text-[#64748B]">Terminal control and monitoring</p></div>;
-  const renderThirdParty = () => <div className="p-6 text-center"><LinkIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Third Party Integration</h3><p className="text-[#64748B]">External service management</p></div>;
-  const renderAPI = () => <div className="p-6 text-center"><CodeIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">API Management</h3><p className="text-[#64748B]">API control and monitoring</p></div>;
-  const renderDeveloper = () => <div className="p-6 text-center"><CodeIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Developer Tools</h3><p className="text-[#64748B]">Development environment management</p></div>;
-  const renderMarketplace = () => <div className="p-6 text-center"><ShoppingCartIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Marketplace Management</h3><p className="text-[#64748B]">Product and vendor management</p></div>;
-  const renderDatabase = () => <div className="p-6 text-center"><HardDriveIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Database Management</h3><p className="text-[#64748B]">Database operations and monitoring</p></div>;
-  const renderSystemHealth = () => <div className="p-6 text-center"><ActivityIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">System Health</h3><p className="text-[#64748B]">Platform analytics and monitoring</p></div>;
-  const renderSubscription = () => <div className="p-6 text-center"><DollarSignIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Subscription & Fees</h3><p className="text-[#64748B]">Billing and subscription management</p></div>;
-  const renderSystemLogs = () => <div className="p-6 text-center"><FileTextIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">System Logs</h3><p className="text-[#64748B]">Log management and analysis</p></div>;
-  const renderProfile = () => <div className="p-6 text-center"><UserIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Profile Settings</h3><p className="text-[#64748B]">Admin profile management</p></div>;
-  const renderWallet = () => <div className="p-6 text-center"><WalletIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Wallet Management</h3><p className="text-[#64748B]">Wallet operations and monitoring</p></div>;
-  const renderEscrow = () => <div className="p-6 text-center"><HandshakeIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Escrow Management</h3><p className="text-[#64748B]">Escrow transaction control</p></div>;
-  const renderBackgroundCheck = () => <div className="p-6 text-center"><SearchCheckIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Background Check</h3><p className="text-[#64748B]">User screening and verification</p></div>;
-  const renderReports = () => <div className="p-6 text-center"><PieChartIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Reports & Analytics</h3><p className="text-[#64748B]">Platform reporting and insights</p></div>;
-  const renderDisputes = () => <div className="p-6 text-center"><AlertTriangleIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Dispute Management</h3><p className="text-[#64748B]">Dispute resolution system</p></div>;
-  const renderChat = () => <div className="p-6 text-center"><MessageSquareIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Chat Management</h3><p className="text-[#64748B]">Platform chat administration</p></div>;
-  const renderEmail = () => <div className="p-6 text-center"><MailIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Email & Templates</h3><p className="text-[#64748B]">Email management system</p></div>;
-  const renderNotifications = () => <div className="p-6 text-center"><BellIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Notification Management</h3><p className="text-[#64748B]">Notification control system</p></div>;
-  const renderTickets = () => <div className="p-6 text-center"><TicketIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Ticketing System</h3><p className="text-[#64748B]">Support ticket management</p></div>;
-  const renderWhiteLabel = () => <div className="p-6 text-center"><PaletteIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">White Labelling</h3><p className="text-[#64748B]">Platform customization management</p></div>;
-  const renderReferrals = () => <div className="p-6 text-center"><GiftIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Referrals Management</h3><p className="text-[#64748B]">Referral system control</p></div>;
-  const renderRewards = () => <div className="p-6 text-center"><StarIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Reward Management</h3><p className="text-[#64748B]">Reward system administration</p></div>;
-  const renderRatings = () => <div className="p-6 text-center"><StarIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Ratings Management</h3><p className="text-[#64748B]">Rating system control</p></div>;
-  const renderDocuments = () => <div className="p-6 text-center"><FolderIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Document Management</h3><p className="text-[#64748B]">Document control system</p></div>;
-  const renderSecurity = () => <div className="p-6 text-center"><LockIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Security Center</h3><p className="text-[#64748B]">Security management system</p></div>;
-  const renderContent = () => <div className="p-6 text-center"><MonitorIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Website Content</h3><p className="text-[#64748B]">Content management system</p></div>;
-  const renderDowntime = () => <div className="p-6 text-center"><WifiOffIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" /><h3 className="text-lg font-semibold text-[#1E293B] mb-2">Downtime Tracker</h3><p className="text-[#64748B]">Uptime monitoring system</p></div>;
 
   return (
     <div className="min-h-screen bg-white">
@@ -1981,7 +1757,12 @@ export const SuperAdminDashboard = (): JSX.Element => {
                   <div className={`${currentPage === item.id ? 'text-white' : ''}`}>
                     {item.icon}
                   </div>
-                  <span className="font-medium">{item.name}</span>
+                  <div className="flex-1">
+                    <span className="font-medium block">{item.name}</span>
+                    <span className={`text-xs ${currentPage === item.id ? 'text-white/70' : 'text-[#64748B]'}`}>
+                      {item.description}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
@@ -2028,7 +1809,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
                     variant="ghost" 
                     size="sm" 
                     className="p-2 hover:bg-[#F8F9FF]"
-                    onClick={() => setCurrentPage("notifications")}
                   >
                     <BellIcon className="w-5 h-5 text-[#64748B]" />
                   </Button>
@@ -2042,7 +1822,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
                     <div className="text-sm font-medium text-[#1E293B]">Sarah SuperAdmin</div>
                     <div className="text-xs text-[#64748B]">Super Administrator</div>
                   </div>
-                  <Avatar className="w-8 h-8" onClick={() => setCurrentPage("profile")} style={{ cursor: 'pointer' }}>
+                  <Avatar className="w-8 h-8">
                     <AvatarFallback className="bg-[#7C3AED] text-white">SS</AvatarFallback>
                   </Avatar>
                 </div>
@@ -2140,7 +1920,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
                 {isProcessing ? 'Exporting Data...' : 'Export Complete'}
               </h3>
               <p className="text-[#64748B] mb-6">
-                {isProcessing ? `Preparing ${exportType} for download` : `${exportType} has been exported successfully`}
+                {isProcessing ? `Preparing ${exportType} for download...` : `${exportType} has been exported successfully`}
               </p>
               {isProcessing && (
                 <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
@@ -2241,7 +2021,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
                       <option value="Ghana">Ghana</option>
                       <option value="Kenya">Kenya</option>
                       <option value="South Africa">South Africa</option>
-                      <option value="Tanzania">Tanzania</option>
                     </select>
                   </div>
                   <div>
@@ -2254,7 +2033,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
                       <option value="Active">Active</option>
                       <option value="Frozen">Frozen</option>
                       <option value="Suspended">Suspended</option>
-                      <option value="Deactivated">Deactivated</option>
                     </select>
                   </div>
                 </div>
@@ -2273,6 +2051,222 @@ export const SuperAdminDashboard = (): JSX.Element => {
                     variant="outline" 
                     className="flex-1"
                     onClick={() => setShowUserDetailsModal(false)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Create Admin Modal */}
+      {showCreateAdminModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <Card className="w-full max-w-lg bg-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-[#1E293B]">Create Admin User</h3>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => setShowCreateAdminModal(false)}
+                >
+                  <XIcon className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-[#1E293B] mb-2">First Name</label>
+                    <Input
+                      placeholder="Enter first name"
+                      value={adminFormData.firstName}
+                      onChange={(e) => setAdminFormData({...adminFormData, firstName: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-[#1E293B] mb-2">Last Name</label>
+                    <Input
+                      placeholder="Enter last name"
+                      value={adminFormData.lastName}
+                      onChange={(e) => setAdminFormData({...adminFormData, lastName: e.target.value})}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Email</label>
+                  <Input
+                    type="email"
+                    placeholder="Enter email address"
+                    value={adminFormData.email}
+                    onChange={(e) => setAdminFormData({...adminFormData, email: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Role</label>
+                  <select 
+                    value={adminFormData.role}
+                    onChange={(e) => setAdminFormData({...adminFormData, role: e.target.value})}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  >
+                    <option value="">Select Role</option>
+                    <option value="Super Admin">Super Admin</option>
+                    <option value="Regional Admin">Regional Admin</option>
+                    <option value="Support Admin">Support Admin</option>
+                    <option value="Compliance Officer">Compliance Officer</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Regions (Select multiple)</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {["Nigeria", "Ghana", "Kenya", "South Africa", "Tanzania"].map((region) => (
+                      <label key={region} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={adminFormData.regions.includes(region)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setAdminFormData({
+                                ...adminFormData,
+                                regions: [...adminFormData.regions, region]
+                              });
+                            } else {
+                              setAdminFormData({
+                                ...adminFormData,
+                                regions: adminFormData.regions.filter(r => r !== region)
+                              });
+                            }
+                          }}
+                          className="rounded"
+                        />
+                        <span className="text-sm">{region}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex gap-4 mt-6">
+                  <Button 
+                    className="bg-[#7C3AED] text-white flex-1"
+                    onClick={() => {
+                      setShowCreateAdminModal(false);
+                      showSuccess("Admin Created", `${adminFormData.firstName} ${adminFormData.lastName} has been created successfully`);
+                      setAdminFormData({
+                        firstName: "",
+                        lastName: "",
+                        email: "",
+                        role: "",
+                        regions: [],
+                        permissions: []
+                      });
+                    }}
+                    disabled={!adminFormData.firstName || !adminFormData.lastName || !adminFormData.email || !adminFormData.role}
+                  >
+                    Create Admin
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="flex-1"
+                    onClick={() => setShowCreateAdminModal(false)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Create Role Modal */}
+      {showCreateRoleModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <Card className="w-full max-w-lg bg-white">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-bold text-[#1E293B]">Create Role</h3>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => setShowCreateRoleModal(false)}
+                >
+                  <XIcon className="w-4 h-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Role Name</label>
+                  <Input
+                    placeholder="Enter role name"
+                    value={roleFormData.name}
+                    onChange={(e) => setRoleFormData({...roleFormData, name: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Description</label>
+                  <Input
+                    placeholder="Enter role description"
+                    value={roleFormData.description}
+                    onChange={(e) => setRoleFormData({...roleFormData, description: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#1E293B] mb-2">Permissions</label>
+                  <div className="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto">
+                    {[
+                      "Create Users", "Edit Users", "Delete Users", "View Users",
+                      "Manage Transactions", "Reverse Transactions", "View Reports",
+                      "System Settings", "Regional Access", "Audit Logs"
+                    ].map((permission) => (
+                      <label key={permission} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={roleFormData.permissions.includes(permission)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setRoleFormData({
+                                ...roleFormData,
+                                permissions: [...roleFormData.permissions, permission]
+                              });
+                            } else {
+                              setRoleFormData({
+                                ...roleFormData,
+                                permissions: roleFormData.permissions.filter(p => p !== permission)
+                              });
+                            }
+                          }}
+                          className="rounded"
+                        />
+                        <span className="text-sm">{permission}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex gap-4 mt-6">
+                  <Button 
+                    className="bg-[#7C3AED] text-white flex-1"
+                    onClick={() => {
+                      setShowCreateRoleModal(false);
+                      showSuccess("Role Created", `${roleFormData.name} role has been created successfully`);
+                      setRoleFormData({
+                        name: "",
+                        description: "",
+                        permissions: []
+                      });
+                    }}
+                    disabled={!roleFormData.name || !roleFormData.description}
+                  >
+                    Create Role
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="flex-1"
+                    onClick={() => setShowCreateRoleModal(false)}
                   >
                     Cancel
                   </Button>
